@@ -81,14 +81,9 @@ export default function LoginForm() {
         description: `Welcome back, ${user.name}!`,
         variant: "success",
       });
-
-      if (user.role === "admin") {
-        router.push("/admin/dashboard");
-        location.reload();
-      } else {
-        router.push("/");
-        location.reload();
-      }
+      
+      router.push("/");
+      location.reload();
     } catch (err) {
       toast({
         title: "Error",
