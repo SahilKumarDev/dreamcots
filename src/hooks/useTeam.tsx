@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Team } from "@/types/team-types";
+import { Team } from "@/types/admin/team-types";
 
 export const useTeam = () => {
   const { toast } = useToast();

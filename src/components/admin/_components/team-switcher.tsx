@@ -21,7 +21,7 @@ import {
 
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Team } from "@/types/team-types";
+import { Team } from "@/types/admin/team-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@radix-ui/react-dialog";

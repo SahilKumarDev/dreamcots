@@ -21,7 +21,7 @@ const AdminHeader = ({ slug }: { slug: string }) => {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink>Dashboard</BreadcrumbLink>
+              <BreadcrumbLink>Admin</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/database/connectDB";
-import { ITeam } from "@/types/team-types";
-import Team from "@/models/team-model";
+import { ITeam } from "@/types/admin/team-types";
+import Team from "@/models/admin/team-model";
 
 export async function GET() {
   await connectDB();

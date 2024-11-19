@@ -13,7 +13,7 @@ export const projects = [
     name: "Dashboard",
     icon: LayoutDashboard,
     isActive: true,
-    url: "/admin",
+    url: "/dashboard",
   },
   {
     id: 2,

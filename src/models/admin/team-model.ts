@@ -1,4 +1,4 @@
-import { EPlan, ITeam } from "@/types/team-types";
+import { EPlan, ITeam } from "@/types/admin/team-types";
 import mongoose from "mongoose";
 
 const TeamSchema = new mongoose.Schema<ITeam>(
