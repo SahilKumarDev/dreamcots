@@ -57,8 +57,7 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
       unique: true,
     },
     phoneNumber: {
-      required: true,
-      type: Number,
+      type: String,
     },
     profilePicture: {
       type: String,
@@ -99,10 +98,6 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
     },
     highestTeachingClassOrDegree: {
       type: String,
-    },
-    availability: {
-      type: String,
-      enum: ["part time", "full time"],
     },
     address: { type: AddressSchema },
   },

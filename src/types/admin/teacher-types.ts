@@ -4,7 +4,7 @@ export interface ITeacher extends Document {
   name: string;
   uniqueName: string;
   email: string;
-  phoneNumber: number;
+  phoneNumber: string;
   profilePicture: string;
   coaching: ITeacherCoaching;
   skills: string[];
@@ -18,10 +18,9 @@ export interface ITeacher extends Document {
   languages: string[];
   socialMedia: string[];
   highestTeachingClassOrDegree: string;
-  availability: ITeacherAvailability;
   address: IAddress;
 }
-
+ 
 export interface IAddress {
   street: string;
   city: string;
@@ -36,12 +35,7 @@ export interface ITeacherCoaching {
   fees: number;
   time: string;
 }
-
-export enum ITeacherAvailability {
-  PART = "part time",
-  FULL = "full time",
-}
-
+ 
 export enum ITeacherGender {
   MALE = "male",
   FEMALE = "female",
