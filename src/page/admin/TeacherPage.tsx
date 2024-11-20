@@ -1,18 +1,20 @@
-import AddTeacher from "@/components/admin/_components/AddTeacher";
-import ShowTeacherData from "@/components/admin/_components/ShowTeacherData";
-import DemoPage from "@/components/admin/tabel/page";
+import TeacherData from "@/components/admin/table/page";
 
 const TeacherPage = () => {
   return (
     <div>
-      <div className="flex-between">
-        <h1>Teacher Page</h1>
-        <AddTeacher />
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Welcome Back, To Teacher!
+        </h1>
+
+        <p className="text-lg text-muted-foreground">
+          Here you can add teacher or view teacher details and update teacher
+          details also delete teacher.
+        </p>
       </div>
 
-      {/* <ShowTeacherData /> */}
-
-      <DemoPage />
+      <TeacherData />
     </div>
   );
 };

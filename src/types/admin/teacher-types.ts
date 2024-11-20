@@ -1,6 +1,7 @@
-import { Document } from "mongoose";
+ 
 
-export interface ITeacher extends Document {
+export interface ITeacher {
+  _id: string;
   name: string;
   uniqueName: string;
   email: string;

@@ -25,6 +25,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+// import AddTeacher from "@/components/admin/_components/AddTeacher";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,17 +57,26 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const router = useRouter();
+
+  const AddTeacher = () => {
+    router.push("/admin/teacher/add-teacher");
+  };
+
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter names..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex-between">
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="Search names..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <Button onClick={AddTeacher}>Add Teacher</Button>
       </div>
       <div className="rounded-md border">
         <Table>
