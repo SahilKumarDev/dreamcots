@@ -1,44 +1,5 @@
+import { ICoaching, IGender, ITeacher } from "@/types/admin/teacher-types";
 import mongoose, { Schema } from "mongoose";
-import {
-  ITeacher,
-  IAddress,
-  ITeacherGender,
-  ITeacherCoaching,
-} from "@/types/admin/teacher-types";
-
-const AddressSchema: Schema<IAddress> = new Schema({
-  street: {
-    type: String,
-  },
-  city: {
-    type: String,
-  },
-  state: {
-    type: String,
-  },
-  postalCode: {
-    type: String,
-  },
-  country: {
-    type: String,
-  },
-});
-
-const CoachingSchema: Schema<ITeacherCoaching> = new Schema({
-  isCoaching: {
-    type: Boolean,
-    default: false,
-  },
-  location: {
-    type: String,
-  },
-  fees: {
-    type: Number,
-  },
-  time: {
-    type: String,
-  },
-});
 
 const TeacherSchema: Schema<ITeacher> = new Schema(
   {
@@ -46,60 +7,46 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
       type: String,
       required: true,
     },
-    uniqueName: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     email: {
       type: String,
       required: true,
       unique: true,
     },
-    phoneNumber: {
+    number: {
       type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+    },
+    gender: {
+      type: String,
+      enum: Object.values(IGender),
+      required: true,
     },
     profilePicture: {
       type: String,
     },
     coaching: {
-      type: CoachingSchema,
+      type: String,
+      enum: Object.values(ICoaching),
+      required: true,
     },
-    skills: {
-      type: [String],
-    },
-    yearsOfExperience: {
+    experience: {
       type: String,
     },
-    isFullTime: {
-      type: Boolean,
-    },
-    emergencyContact: {
-      type: Number,
-    },
-    gender: {
-      type: String,
-      enum: ITeacherGender,
-    },
-    teachingSubjects: {
-      type: [String],
-    },
-    highestQualification: {
+    qualification: {
       type: String,
     },
-    teachingSchoolOrCollege: {
+    schoolOrCollege: {
       type: String,
     },
-    languages: {
-      type: [String],
-    },
-    socialMedia: {
-      type: [String],
-    },
-    highestTeachingClassOrDegree: {
+    teachingSubject: {
       type: String,
     },
-    address: { type: AddressSchema },
+    teachingLanguage: {
+      type: String,
+    },
   },
   {
     timestamps: true,

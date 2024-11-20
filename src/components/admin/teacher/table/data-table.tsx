@@ -23,10 +23,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import AddTeacher from "@/components/admin/_components/AddTeacher";
-import { useRouter } from "next/navigation";
+import { ADMIN_TEACHER_ADD } from "@/utils/routes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -60,7 +60,7 @@ export function DataTable<TData, TValue>({
   const router = useRouter();
 
   const AddTeacher = () => {
-    router.push("/admin/teacher/add-teacher");
+    router.push(ADMIN_TEACHER_ADD);
   };
 
   return (

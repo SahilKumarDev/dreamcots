@@ -1,6 +1,6 @@
 import SchoolCollegePage from "@/page/admin/SchoolCollegePage";
 import AdminHeader from "@/components/admin/AdminHeader";
-import PageNotFound from "@/components/PageNotFound";
+import PageNotFound from "@/page/not-found/PageNotFound";
 import StudentPage from "@/page/admin/StudentPage";
 import TeacherPage from "@/page/admin/TeacherPage";
 import UserPage from "@/page/admin/UserPage";
@@ -15,26 +15,15 @@ const AdminSlugPage = async ({
 }) => {
   const slug = (await params).slug;
 
-  // const slugItem = [
-  //   "room",
-  //   "user",
-  //   "teacher",
-  //   "student",
-  //   "dashboard",
-  //   "school-college",
-  // ];
-
-  // if(!slugItem.include(slug)) return <PageNotFound /> 
-
   const renderPage = () => {
     switch (slug) {
       case "room":
         return <RoomPage />;
       case "user":
         return <UserPage />;
-      case "teacher":
+      case "teachers":
         return <TeacherPage />;
-      case "student":
+      case "students":
         return <StudentPage />;
       case "dashboard":
         return <DashboardPage />;

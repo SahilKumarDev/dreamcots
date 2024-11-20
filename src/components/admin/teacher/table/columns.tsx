@@ -1,27 +1,10 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  // ClipboardCheck,
-  // Eye,
-  // Trash2,
-  // Waypoints,
-} from "lucide-react";
-// import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
+import TableAction from "@/components/admin/teacher/_components/TableAction";
 import { ITeacher } from "@/types/admin/teacher-types";
-// import { redirect } from "next/navigation";
-import TableAction from "../_components/TableAction";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 export const columns: ColumnDef<ITeacher>[] = [
   {
@@ -43,7 +26,7 @@ export const columns: ColumnDef<ITeacher>[] = [
     header: "Email",
   },
   {
-    accessorKey: "phoneNumber",
+    accessorKey: "number",
     header: "Phone",
   },
   {
@@ -59,12 +42,16 @@ export const columns: ColumnDef<ITeacher>[] = [
     header: "Address",
   },
   {
-    accessorKey: "language",
+    accessorKey: "teachingLanguage",
     header: "Language",
   },
   {
     accessorKey: "qualification",
     header: "Qualifi...",
+  },
+  {
+    accessorKey: "teachingSubject",
+    header: "Subject",
   },
 
   {

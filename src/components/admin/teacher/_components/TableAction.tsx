@@ -23,6 +23,7 @@ import {
 
 import { ITeacher } from "@/types/admin/teacher-types";
 import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
+import { ADMIN_TEACHER_VIEW } from "@/utils/routes";
 
 interface TableActionsProps {
   item: ITeacher;
@@ -39,14 +40,14 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
     refreshData,
   });
 
-  // Redirect Routes
-  const singleTeacherView = `/admin/teacher/teacher-${item._id}`;
+  const teacherView = `${ADMIN_TEACHER_VIEW}${item._id}`;
+  const teacherEdit = `${ADMIN_TEACHER_VIEW}${item._id}`;
 
   const onView = async () => {
     try {
       setIsLoading(true);
       await handleViewTeacher(item._id);
-      router.push(singleTeacherView);
+      router.push(teacherView);
     } catch (error) {
       console.error("View error:", error);
     } finally {
@@ -58,7 +59,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
     try {
       setIsLoading(true);
       await handleViewTeacher(item._id);
-      router.push(`/teachers/edit/${item._id}`);
+      router.push(teacherEdit);
     } catch (error) {
       console.error("Edit error:", error);
     } finally {

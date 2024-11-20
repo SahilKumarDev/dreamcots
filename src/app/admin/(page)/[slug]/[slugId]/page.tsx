@@ -1,5 +1,8 @@
-import AddTeacherForm from "@/components/admin/_components/AddTeacherForm";
-import PageNotFound from "@/components/PageNotFound";
+import AdminHeader from "@/components/admin/AdminHeader";
+import AdminPageWrapper from "@/components/admin/AdminPageWrapper";
+import AddTeacherForm from "@/components/admin/teacher/_components/AddForm";
+import PageNotFound from "@/page/not-found/PageNotFound";
+import { subString } from "@/utils/sub-string-utils";
 
 const SlugIdPage = async ({
   params,
@@ -8,27 +11,36 @@ const SlugIdPage = async ({
 }) => {
   const slugId = (await params).slugId;
 
-  const subSlugId = (id: string) => {
-    const subSlugId = id.substring(id.indexOf("-") + 1);
-    return subSlugId;
-  };
-
   const renderPage = () => {
     switch (slugId) {
       case "add-teacher":
         return <AddTeacherForm />;
-      case `teacher-${subSlugId(slugId)}`:
-        return <div>Teacher Page</div>;
+      case `teacher-${subString(slugId, "-")}`:
+        return (
+          <div>
+            Teacher Page {slugId}, sub slug id : {subString(slugId, "-")}
+          </div>
+        );
 
-      case `student-${subSlugId(slugId)}`:
-        return <div>Sutdent Page</div>;
+      case `student-${subString(slugId, "-")}`:
+        return (
+          <div>
+            Student Page {slugId}, sub slug id : {subString(slugId, "-")}
+          </div>
+        );
 
       default:
         return <PageNotFound />;
     }
   };
 
-  return <>{renderPage()}</>;
+  return (
+    <>
+      <AdminHeader slug={slugId} />
+
+      <AdminPageWrapper>{renderPage()}</AdminPageWrapper>
+    </>
+  );
 };
 
 export default SlugIdPage;

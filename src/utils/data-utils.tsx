@@ -25,13 +25,13 @@ export const projects = [
     id: 3,
     name: "Student",
     icon: UserCheckIcon,
-    url: "/student",
+    url: "/students",
   },
   {
     id: 4,
     name: "Teacher",
     icon: UserCheck2,
-    url: "/teacher",
+    url: "/teachers",
   },
   {
     id: 5,
@@ -43,7 +43,7 @@ export const projects = [
     id: 6,
     name: "Room",
     icon: Home,
-    url: "/room",
+    url: "/rooms",
   },
 ];
   

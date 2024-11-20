@@ -1,43 +1,26 @@
- 
-
 export interface ITeacher {
   _id: string;
   name: string;
-  uniqueName: string;
   email: string;
-  phoneNumber: string;
+  number: string;
+  address: string;
+  experience: string;
+  qualification: string;
   profilePicture: string;
-  coaching: ITeacherCoaching;
-  skills: string[];
-  yearsOfExperience: string;
-  isFullTime: boolean;
-  emergencyContact: number;
-  gender: ITeacherGender;
-  teachingSubjects: string[];
-  highestQualification: string;
-  teachingSchoolOrCollege: string;
-  languages: string[];
-  socialMedia: string[];
-  highestTeachingClassOrDegree: string;
-  address: IAddress;
-}
- 
-export interface IAddress {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
+  schoolOrCollege: string;
+  teachingSubject: string;
+  teachingLanguage: string;
+
+  gender: IGender;
+  coaching: ICoaching;
 }
 
-export interface ITeacherCoaching {
-  isCoaching: boolean;
-  location: string;
-  fees: number;
-  time: string;
-}
- 
-export enum ITeacherGender {
+export enum IGender {
   MALE = "male",
   FEMALE = "female",
+}
+
+export enum ICoaching {
+  YES = "yes",
+  NO = "no",
 }
