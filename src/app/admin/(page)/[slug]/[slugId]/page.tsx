@@ -1,5 +1,7 @@
-import AdminPageWrapper from "@/components/admin/AdminPageWrapper";
 import AddTeacherForm from "@/components/admin/teacher/_components/AddForm";
+import AdminPageWrapper from "@/components/admin/AdminPageWrapper";
+import UpdatePage from "@/components/admin/teacher/UpdatePage";
+import ViewPage from "@/components/admin/teacher/ViewPage";
 import PageNotFound from "@/page/not-found/PageNotFound";
 import { subString } from "@/utils/sub-string-utils";
 
@@ -14,19 +16,12 @@ const SlugIdPage = async ({
     switch (slugId) {
       case "add-teacher":
         return <AddTeacherForm />;
-      case `teacher-${subString(slugId, "-")}`:
-        return (
-          <div>
-            Teacher Page {slugId}, sub slug id : {subString(slugId, "-")}
-          </div>
-        );
 
-      case `edit-${subString(slugId, "-")}`:
-        return (
-          <div>
-            Teacher Page {slugId}, sub slug id : {subString(slugId, "-")}
-          </div>
-        );
+      case `teacher-${subString(slugId, "-")}`:
+        return <ViewPage slugId={subString(slugId, "-")} />;
+
+      case `update-${subString(slugId, "-")}`:
+        return <UpdatePage slugId={subString(slugId, "-")} />;
 
       case `student-${subString(slugId, "-")}`:
         return (

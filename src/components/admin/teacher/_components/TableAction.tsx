@@ -23,7 +23,7 @@ import {
 
 import { ITeacher } from "@/types/admin/teacher-types";
 import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
-import { ADMIN_TEACHER_VIEW } from "@/utils/routes";
+import { ADMIN_TEACHER_EDIT, ADMIN_TEACHER_VIEW } from "@/utils/routes";
 
 interface TableActionsProps {
   item: ITeacher;
@@ -41,7 +41,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   });
 
   const teacherView = `${ADMIN_TEACHER_VIEW}${item._id}`;
-  const teacherEdit = `${ADMIN_TEACHER_VIEW}${item._id}`;
+  const teacherEdit = `${ADMIN_TEACHER_EDIT}${item._id}`;
 
   const onView = async () => {
     try {

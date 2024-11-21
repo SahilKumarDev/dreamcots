@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, { params }: Params) {
     }
 
     return NextResponse.json(teacher, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch teacher" },
       { status: 500 }
@@ -33,14 +33,11 @@ export async function PUT(request: NextRequest, { params }: Params) {
     await connectDB();
     const body: Partial<ITeacher> = await request.json();
 
-    if (body.email || body.uniqueName) {
+    if (body.email) {
       const orConditions: FilterQuery<ITeacher>[] = [];
 
       if (body.email) {
         orConditions.push({ email: body.email });
-      }
-      if (body.uniqueName) {
-        orConditions.push({ uniqueName: body.uniqueName });
       }
 
       const existingTeacher = await Teacher.findOne({
@@ -50,7 +47,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
       if (existingTeacher) {
         return NextResponse.json(
-          { error: "Email or unique name already in use" },
+          { error: "Email already in use" },
           { status: 400 }
         );
       }
@@ -67,7 +64,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
     }
 
     return NextResponse.json(updatedTeacher, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to update teacher" },
       { status: 500 }
@@ -88,7 +85,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       { message: "Teacher deleted successfully" },
       { status: 200 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to delete teacher" },
       { status: 500 }
