@@ -4,11 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FloatingInput from "@/components/admin/_components/FloatingInput";
 import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
+
 import React, { useState } from "react";
 import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ADMIN_TEACHER } from "@/utils/routes";
+import ImageUpload from "@/components/UploadImage";
 
 const AddTeacherForm = () => {
   const { toast } = useToast();
@@ -28,6 +30,8 @@ const AddTeacherForm = () => {
     teachingSubject: "",
     teachingLanguage: "",
   });
+
+  const [uploading, setUploading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,6 +55,13 @@ const AddTeacherForm = () => {
     }));
   };
 
+  const handleProfilePictureUpload = (url: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      profilePicture: url,
+    }));
+  };
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -70,22 +81,20 @@ const AddTeacherForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const processedData: ITeacher = {
-      ...formData,
-    } as ITeacher;
+    setUploading(true);
 
     try {
-      const response = await fetch("/api/teachers", {
+      // Submit teacher data
+      const teacherResponse = await fetch("/api/teachers", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(processedData),
+        body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
+      if (!teacherResponse.ok) {
+        const error = await teacherResponse.json();
         throw new Error(error.error);
       }
 
@@ -103,6 +112,8 @@ const AddTeacherForm = () => {
           error instanceof Error ? error.message : "An error occurred",
         variant: "destructive",
       });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -114,6 +125,13 @@ const AddTeacherForm = () => {
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Image Upload Component */}
+            <div className="col-span-full flex justify-center mb-6">
+              <ImageUpload
+                onUpload={handleProfilePictureUpload}
+                className="w-full max-w-xs"
+              />
+            </div>
             <FloatingInput
               placeholder="Full Name"
               id="name"
@@ -215,17 +233,19 @@ const AddTeacherForm = () => {
               value={formData.coaching}
               onChange={handleCoachingChange}
             />
-          </div>
 
-          <div className="mt-6 flex justify-end space-x-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.push(ADMIN_TEACHER)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Add Teacher</Button>
+            <div className="col-span-full mt-6 flex justify-end space-x-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push(ADMIN_TEACHER)}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={uploading}>
+                {uploading ? "Adding Teacher..." : "Add Teacher"}
+              </Button>
+            </div>
           </div>
         </form>
       </CardContent>

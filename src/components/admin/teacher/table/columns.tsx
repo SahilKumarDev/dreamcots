@@ -5,8 +5,32 @@ import { ITeacher } from "@/types/admin/teacher-types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import Image from "next/image";
 
 export const columns: ColumnDef<ITeacher>[] = [
+  {
+    accessorKey: "profilePicture",
+    header: "Image",
+    cell: ({ row }) => {
+      const imageUrl = row.original.profilePicture;
+
+      return (
+        <>
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="profile"
+              width={50}
+              height={50}
+              className="rounded-full object-cover w-9 h-9"
+            />
+          ) : (
+            <h1>Upload image</h1>
+          )}
+        </>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -35,7 +59,7 @@ export const columns: ColumnDef<ITeacher>[] = [
   },
   {
     accessorKey: "experience",
-    header: "Experience",
+    header: "Exp...",
   },
   {
     accessorKey: "address",
