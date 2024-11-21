@@ -1,3 +1,4 @@
+import AdminHeader from "@/components/admin/AdminHeader";
 import { SidebarInset } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 
@@ -11,5 +12,10 @@ export default function AdminSubLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <SidebarInset>{children}</SidebarInset>;
+  return (
+    <SidebarInset>
+      <AdminHeader  />
+      {children}
+    </SidebarInset>
+  );
 }

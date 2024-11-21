@@ -1,4 +1,3 @@
-import AdminHeader from "@/components/admin/AdminHeader";
 import AdminPageWrapper from "@/components/admin/AdminPageWrapper";
 import AddTeacherForm from "@/components/admin/teacher/_components/AddForm";
 import PageNotFound from "@/page/not-found/PageNotFound";
@@ -22,6 +21,13 @@ const SlugIdPage = async ({
           </div>
         );
 
+      case `edit-${subString(slugId, "-")}`:
+        return (
+          <div>
+            Teacher Page {slugId}, sub slug id : {subString(slugId, "-")}
+          </div>
+        );
+
       case `student-${subString(slugId, "-")}`:
         return (
           <div>
@@ -34,13 +40,7 @@ const SlugIdPage = async ({
     }
   };
 
-  return (
-    <>
-      <AdminHeader slug={slugId} />
-
-      <AdminPageWrapper>{renderPage()}</AdminPageWrapper>
-    </>
-  );
+  return <AdminPageWrapper>{renderPage()}</AdminPageWrapper>;
 };
 
 export default SlugIdPage;

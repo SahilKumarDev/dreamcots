@@ -3,7 +3,6 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
 import { connectDB } from "@/database/connectDB";
 import Image from "@/models/image-model";
 
-
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();

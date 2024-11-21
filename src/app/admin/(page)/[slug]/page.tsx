@@ -1,5 +1,4 @@
 import SchoolCollegePage from "@/page/admin/SchoolCollegePage";
-import AdminHeader from "@/components/admin/AdminHeader";
 import PageNotFound from "@/page/not-found/PageNotFound";
 import StudentPage from "@/page/admin/StudentPage";
 import TeacherPage from "@/page/admin/TeacherPage";
@@ -34,12 +33,7 @@ const AdminSlugPage = async ({
     }
   };
 
-  return (
-    <>
-      <AdminHeader slug={slug} />
-      <AdminPageWrapper>{renderPage()}</AdminPageWrapper>
-    </>
-  );
+  return <AdminPageWrapper>{renderPage()}</AdminPageWrapper>;
 };
 
 export default AdminSlugPage;
