@@ -1,71 +1,80 @@
-import { ITeacher } from "@/types/admin/teacher-types";
+import { IStudent } from "@/types/admin/student-types";
 
 import axios from "axios";
 import { useToast } from "../use-toast";
 
-interface ITeacherActions {
-  teacherId: string;
+interface IStudentActions {
+  studentId: string;
   refreshData?: () => void;
 }
 
-export const useTeacherActions = ({ refreshData }: ITeacherActions) => {
+export const useStudentActions = ({ refreshData }: IStudentActions) => {
   const { toast } = useToast();
 
-  // View Teacher Details
-  const handleViewTeacher = async (id: string) => {
+  // View Student Details
+  const handleViewStudent = async (id: string) => {
     try {
-      const response = await axios.get(`/api/teachers/${id}`);
+      const response = await axios.get(`/api/students/${id}`);
+
+
       toast({
         title: "Success",
-        description: "Teacher details",
+        description: "Student details",
       });
       return response.data;
-    } catch {
+    } catch (error) {
+      console.log('====================================');
+      console.log("Internal server error from Students:- ", error);
+      console.log('====================================');
       toast({
         title: "Error",
-        description: "Failed to fetch teacher details",
+        description: "Failed to fetch student details",
+      });
+
+    }
+  };
+
+  // Edit Student
+  const handleEditStudent = async (id: string, data: IStudent) => {
+    try {
+      const response = await axios.put(`/api/students/${id}`, data);
+      toast({
+        title: "Success",
+        description: "Student has been updated",
+      });
+      refreshData?.();
+      return response.data;
+    } catch (error){
+      console.log('====================================');
+      console.log("Internal server error from Students:- ", error);
+      console.log('====================================');
+      toast({
+        title: "Error",
+        description: "Failed to fetch student details",
       });
     }
   };
 
-  // Edit Teacher
-  const handleEditTeacher = async (id: string, data: ITeacher) => {
+  // Delete Student
+  const handleDeleteStudent = async (id: string) => {
     try {
-      const response = await axios.put(`/api/teachers/${id}`, data);
+      await axios.delete(`/api/students/${id}`);
       toast({
         title: "Success",
-        description: "Teacher has been updated",
-      });
-      refreshData?.();
-      return response.data;
-    } catch {
-      toast({
-        title: "Error",
-        description: "Failed to fetch teacher details",
-      });
-    }
-  };
-
-  // Delete Teacher
-  const handleDeleteTeacher = async (id: string) => {
-    try {
-      await axios.delete(`/api/teachers/${id}`);
-      toast({
-        title: "Success",
-        description: "Teacher has been deleted",
+        description: "Student has been deleted",
       });
       refreshData?.();
     } catch {
       toast({
         title: "Error",
-        description: "Failed to delete teacher details",
+        description: "Failed to delete student details",
       });
     }
   };
 
   return {
-    handleViewTeacher,
-    handleEditTeacher,
-    handleDeleteTeacher,
+    handleViewStudent,
+    handleEditStudent,
+    handleDeleteStudent,
   };
 };

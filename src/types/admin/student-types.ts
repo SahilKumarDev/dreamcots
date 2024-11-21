@@ -1,26 +1,17 @@
-export interface ITeacher {
+export interface IStudent {
   _id: string;
   name: string;
   email: string;
+  age: string;
   number: string;
   address: string;
-  experience: string;
   qualification: string;
   profilePicture: string;
   schoolOrCollege: string;
-  teachingSubject: string;
-  teachingLanguage: string;
-
   gender: IGender;
-  coaching: ICoaching;
 }
 
 export enum IGender {
   MALE = "male",
   FEMALE = "female",
-}
-
-export enum ICoaching {
-  YES = "yes",
-  NO = "no",
 }

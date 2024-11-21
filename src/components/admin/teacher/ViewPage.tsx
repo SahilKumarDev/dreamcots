@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { Waypoints } from "lucide-react";
 import Image from "next/image";
 
-const ViewPage = ({ slugId }: { slugId: string }) => {
+const TeacherViewPage = ({ slugId }: { slugId: string }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [teacher, setTeacher] = useState<ITeacher | null>(null);
 
@@ -121,4 +121,4 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
   );
 };
 
-export default ViewPage;
+export default TeacherViewPage;

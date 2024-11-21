@@ -4,31 +4,31 @@ import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { useToast } from "@/hooks/use-toast";
-import { ITeacher } from "@/types/admin/teacher-types";
+import { IStudent } from "@/types/admin/student-types";
 
-export default function TeacherData() {
-  const [teachers, setTeachers] = useState<ITeacher[]>([]);
+export default function StudentData() {
+  const [students, setStudents] = useState<IStudent[]>([]);
   const [loading, setLoading] = useState(true);
 
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchTeachers = async () => {
+    const fetchStudents = async () => {
       try {
-        const response = await fetch("/api/teachers");
+        const response = await fetch("/api/students");
         const data = await response.json();
-        setTeachers(data);
+        setStudents(data);
       } catch {
         toast({
           title: "Error",
-          description: "Failed to fetch teachers",
+          description: "Failed to fetch students",
           variant: "destructive",
         });
       } finally {
         setLoading(false);
       }
     };
-    fetchTeachers();
+    fetchStudents();
   }, [toast]);
 
   if (loading) {
@@ -37,7 +37,7 @@ export default function TeacherData() {
 
   return (
     <div className="container mx-auto">
-      <DataTable columns={columns} data={teachers} />
+      <DataTable columns={columns} data={students} />
     </div>
   );
 }

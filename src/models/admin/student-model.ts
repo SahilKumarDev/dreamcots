@@ -1,7 +1,7 @@
-import { ICoaching, IGender, ITeacher } from "@/types/admin/teacher-types";
+import { IGender, IStudent } from "@/types/admin/student-types";
 import mongoose, { Schema } from "mongoose";
 
-const TeacherSchema: Schema<ITeacher> = new Schema(
+const StudentSchema: Schema<IStudent> = new Schema(
   {
     name: {
       type: String,
@@ -27,12 +27,7 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
     profilePicture: {
       type: String,
     },
-    coaching: {
-      type: String,
-      enum: Object.values(ICoaching),
-      required: true,
-    },
-    experience: {
+    age: {
       type: String,
     },
     qualification: {
@@ -41,18 +36,12 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
     schoolOrCollege: {
       type: String,
     },
-    teachingSubject: {
-      type: String,
-    },
-    teachingLanguage: {
-      type: String,
-    },
   },
   {
     timestamps: true,
   }
 );
 
-const Teacher =
-  mongoose.models.Teacher || mongoose.model("Teacher", TeacherSchema);
-export default Teacher;
+const Student =
+  mongoose.models.Student || mongoose.model("Student", StudentSchema);
+export default Student;

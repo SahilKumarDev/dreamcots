@@ -1,13 +1,13 @@
 "use client";
 
-import TableAction from "@/components/admin/teacher/_components/TableAction";
-import { ITeacher } from "@/types/admin/teacher-types";
+import TableAction from "@/components/admin/student/_components/TableAction";
+import { IStudent } from "@/types/admin/student-types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 
-export const columns: ColumnDef<ITeacher>[] = [
+export const columns: ColumnDef<IStudent>[] = [
   {
     accessorKey: "profilePicture",
     header: "Image",
@@ -58,24 +58,16 @@ export const columns: ColumnDef<ITeacher>[] = [
     header: "Gender",
   },
   {
-    accessorKey: "experience",
-    header: "Exp...",
+    accessorKey: "age",
+    header: "Age",
   },
   {
     accessorKey: "address",
     header: "Address",
   },
   {
-    accessorKey: "teachingLanguage",
-    header: "Language",
-  },
-  {
     accessorKey: "qualification",
     header: "Qualifi...",
-  },
-  {
-    accessorKey: "teachingSubject",
-    header: "Subject",
   },
 
   {

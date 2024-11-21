@@ -6,45 +6,42 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState, useEffect } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
+import { IStudent, IGender } from "@/types/admin/student-types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_STUDENT } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
 import Loader from "@/components/loader/Loader";
 
-const UpdatePage = ({ slugId }: { slugId: string }) => {
+const StudentUpdatePage = ({ slugId }: { slugId: string }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const teacherId = slugId;
+  const studentId = slugId;
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<IStudent>>({
+    age: "",
     name: "",
     email: "",
     number: "",
     address: "",
     gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
     qualification: "",
     profilePicture: "",
     schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchStudentData = async () => {
       try {
-        const response = await fetch(`/api/teachers/${teacherId}`);
+        const response = await fetch(`/api/students/${studentId}`);
         if (!response.ok) {
-          throw new Error("Failed to fetch teacher data");
+          throw new Error("Failed to fetch student data");
         }
-        const teacherData = await response.json();
-        setFormData(teacherData);
+        const studentData = await response.json();
+        setFormData(studentData);
         setLoading(false);
       } catch (error) {
         toast({
@@ -52,17 +49,17 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
           description:
             error instanceof Error
               ? error.message
-              : "An error occurred while fetching teacher data",
+              : "An error occurred while fetching student data",
           variant: "destructive",
         });
-        router.push(ADMIN_TEACHER);
+        router.push(ADMIN_STUDENT);
       }
     };
 
-    if (teacherId) {
-      fetchTeacherData();
+    if (studentId) {
+      fetchStudentData();
     }
-  }, [teacherId, toast, router]);
+  }, [studentId, toast, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,13 +76,6 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
-    }));
-  };
-
   const handleProfilePictureUpload = (url: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -98,8 +88,8 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     setUploading(true);
 
     try {
-      // Update teacher data
-      const teacherResponse = await fetch(`/api/teachers/${teacherId}`, {
+      // Update student data
+      const studentResponse = await fetch(`/api/students/${studentId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -107,17 +97,17 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
         body: JSON.stringify(formData),
       });
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!studentResponse.ok) {
+        const error = await studentResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher updated successfully",
+        description: "Student updated successfully",
       });
 
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_STUDENT);
     } catch (error) {
       toast({
         title: "Error",
@@ -137,7 +127,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Update Teacher</CardTitle>
+        <CardTitle>Update Student</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -177,20 +167,20 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               required={true}
             />
             <FloatingInput
+              placeholder="Age"
+              id="age"
+              name="age"
+              type="text"
+              value={formData.age}
+              onChange={handleInputChange}
+              required={true}
+            />
+            <FloatingInput
               placeholder="Address"
               id="address"
               name="address"
               type="text"
               value={formData.address}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
-              type="text"
-              value={formData.experience}
               onChange={handleInputChange}
               required={false}
             />
@@ -212,24 +202,6 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={false}
             />
-            <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
-              type="text"
-              value={formData.teachingSubject}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
-              type="text"
-              value={formData.teachingLanguage}
-              onChange={handleInputChange}
-              required={false}
-            />
 
             <CheckBox
               data={[
@@ -241,26 +213,16 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleGenderChange}
             />
 
-            <CheckBox
-              data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
-              ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
-            />
-
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_STUDENT)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Updating Teacher..." : "Update Teacher"}
+                {uploading ? "Updating Student..." : "Update Student"}
               </Button>
             </div>
           </div>
@@ -270,4 +232,4 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   );
 };
 
-export default UpdatePage;
+export default StudentUpdatePage;

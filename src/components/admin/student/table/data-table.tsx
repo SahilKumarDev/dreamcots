@@ -26,7 +26,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ADMIN_TEACHER_ADD } from "@/utils/routes";
+import { ADMIN_STUDENT_ADD } from "@/utils/routes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -59,8 +59,8 @@ export function DataTable<TData, TValue>({
 
   const router = useRouter();
 
-  const AddTeacher = () => {
-    router.push(ADMIN_TEACHER_ADD);
+  const AddStudent = () => {
+    router.push(ADMIN_STUDENT_ADD);
   };
 
   return (
@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
-        <Button onClick={AddTeacher}>Add Teacher</Button>
+        <Button onClick={AddStudent}>Add Student</Button>
       </div>
       <div className="rounded-md border">
         <Table>

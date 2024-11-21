@@ -6,29 +6,27 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
+
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_STUDENT } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
+import { IGender, IStudent } from "@/types/admin/student-types";
 
-const AddTeacherForm = () => {
+const AddStudentForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<IStudent>>({
+    age: "",
     name: "",
     email: "",
     number: "",
     address: "",
     gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
     qualification: "",
     profilePicture: "",
     schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
   });
 
   const [uploading, setUploading] = useState(false);
@@ -48,13 +46,6 @@ const AddTeacherForm = () => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
-    }));
-  };
-
   const handleProfilePictureUpload = (url: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -64,18 +55,15 @@ const AddTeacherForm = () => {
 
   const resetForm = () => {
     setFormData({
+      age: "",
       name: "",
       email: "",
       number: "",
       address: "",
       gender: IGender.MALE,
-      coaching: ICoaching.NO,
-      experience: "",
       qualification: "",
       profilePicture: "",
       schoolOrCollege: "",
-      teachingSubject: "",
-      teachingLanguage: "",
     });
   };
 
@@ -84,8 +72,7 @@ const AddTeacherForm = () => {
     setUploading(true);
 
     try {
-      // Submit teacher data
-      const teacherResponse = await fetch("/api/teachers", {
+      const studentResponse = await fetch("/api/students", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,18 +80,18 @@ const AddTeacherForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!studentResponse.ok) {
+        const error = await studentResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher created successfully",
+        description: "Student created successfully",
       });
 
       resetForm();
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_STUDENT);
     } catch (error) {
       toast({
         title: "Error",
@@ -120,7 +107,7 @@ const AddTeacherForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add New Teacher</CardTitle>
+        <CardTitle>Add New Student</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -160,6 +147,15 @@ const AddTeacherForm = () => {
               required={true}
             />
             <FloatingInput
+              placeholder="Age"
+              id="age"
+              name="age"
+              type="text"
+              value={formData.age}
+              onChange={handleInputChange}
+              required={true}
+            />
+            <FloatingInput
               placeholder="Address"
               id="address"
               name="address"
@@ -168,15 +164,7 @@ const AddTeacherForm = () => {
               onChange={handleInputChange}
               required={false}
             />
-            <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
-              type="text"
-              value={formData.experience}
-              onChange={handleInputChange}
-              required={false}
-            />
+
             <FloatingInput
               placeholder="Qualification"
               id="qualification"
@@ -195,24 +183,6 @@ const AddTeacherForm = () => {
               onChange={handleInputChange}
               required={false}
             />
-            <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
-              type="text"
-              value={formData.teachingSubject}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
-              type="text"
-              value={formData.teachingLanguage}
-              onChange={handleInputChange}
-              required={false}
-            />
 
             <CheckBox
               data={[
@@ -224,26 +194,16 @@ const AddTeacherForm = () => {
               onChange={handleGenderChange}
             />
 
-            <CheckBox
-              data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
-              ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
-            />
-
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_STUDENT)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Adding Teacher..." : "Add Teacher"}
+                {uploading ? "Adding Student..." : "Add Student"}
               </Button>
             </div>
           </div>
@@ -253,4 +213,4 @@ const AddTeacherForm = () => {
   );
 };
 
-export default AddTeacherForm;
+export default AddStudentForm;

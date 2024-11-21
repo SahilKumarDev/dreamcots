@@ -13,7 +13,7 @@ import { ADMIN_TEACHER } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
 import Loader from "@/components/loader/Loader";
 
-const UpdatePage = ({ slugId }: { slugId: string }) => {
+const TeacherUpdatePage = ({ slugId }: { slugId: string }) => {
   const { toast } = useToast();
   const router = useRouter();
   const teacherId = slugId;
@@ -270,4 +270,4 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   );
 };
 
-export default UpdatePage;
+export default TeacherUpdatePage;
