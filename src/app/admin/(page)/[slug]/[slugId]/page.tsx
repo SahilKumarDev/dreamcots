@@ -14,21 +14,21 @@ const SlugIdPage = async ({
 
   const renderPage = () => {
     switch (slugId) {
+      // Teacher URL Routes
       case "add-teacher":
         return <AddTeacherForm />;
-
       case `teacher-${subString(slugId, "-")}`:
         return <ViewPage slugId={subString(slugId, "-")} />;
-
       case `update-${subString(slugId, "-")}`:
         return <UpdatePage slugId={subString(slugId, "-")} />;
 
+      // Teacher URL Routes
+      case "add-student":
+        return <AddTeacherForm />;
       case `student-${subString(slugId, "-")}`:
-        return (
-          <div>
-            Student Page {slugId}, sub slug id : {subString(slugId, "-")}
-          </div>
-        );
+        return <ViewPage slugId={subString(slugId, "-")} />;
+      case `update-${subString(slugId, "-")}`:
+        return <UpdatePage slugId={subString(slugId, "-")} />;
 
       default:
         return <PageNotFound />;

@@ -1,9 +1,16 @@
-import React from 'react'
+import HeaderHeading from "@/components/admin/_components/HeaderHeading";
+import TeacherData from "@/components/admin/teacher/table/page";
 
 const StudentPage = () => {
   return (
-    <div>StudentPage</div>
-  )
-}
+    <>
+      <HeaderHeading
+        title="Welcome Back, To Teacher!"
+        description="Here you can add teacher or view teacher details and update teacher details also delete teacher."
+      />
+      <TeacherData />
+    </>
+  );
+};
 
-export default StudentPage
+export default StudentPage;
