@@ -2,9 +2,16 @@
 
 import { ThemeToggle } from "@/components/ThemeToggler";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function Home() {
+  const router = useRouter();
+  
+  const useAdmin = () => {
+    router.push("/admin");
+  };
+
   return (
     <div className="flex justify-center items-center h-screen gap-4">
       <Button
@@ -21,6 +28,8 @@ export default function Home() {
       >
         Click to check sonner
       </Button>
+
+      <Button onClick={useAdmin}>Admin Page</Button>
 
       <ThemeToggle />
     </div>

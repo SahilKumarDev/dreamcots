@@ -6,29 +6,31 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
+import { IRoom, IGender, IStatus, IWhoIsUsing } from "@/types/admin/room-types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_ROOM } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
 
-const AddTeacherForm = () => {
+const AddRoomForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<IRoom>>({
+    dob: "",
     name: "",
     email: "",
     number: "",
     address: "",
-    gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
-    qualification: "",
+    roomType: "",
+    roomImage: "",
+    roomPrice: "",
+    profession: "",
+    roomMember: "",
     profilePicture: "",
-    schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
+    gender: IGender.MALE,
+    status: IStatus.PENDING,
+    whoIsUsing: IWhoIsUsing.RENTER,
   });
 
   const [uploading, setUploading] = useState(false);
@@ -48,10 +50,18 @@ const AddTeacherForm = () => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
+  const handleStatusChange = (value: string) => {
     setFormData((prev) => ({
       ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
+      status: value === IStatus.PENDING ? IStatus.PENDING : IStatus.APPROVED,
+    }));
+  };
+
+  const handleWhoIsUsingChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      whoIsUsing:
+        value === IWhoIsUsing.RENTER ? IWhoIsUsing.RENTER : IWhoIsUsing.OWNER,
     }));
   };
 
@@ -62,20 +72,29 @@ const AddTeacherForm = () => {
     }));
   };
 
+  const handleRoomPictureUpload = (url: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      roomImage: url,
+    }));
+  };
+
   const resetForm = () => {
     setFormData({
+      dob: "",
       name: "",
       email: "",
       number: "",
       address: "",
-      gender: IGender.MALE,
-      coaching: ICoaching.NO,
-      experience: "",
-      qualification: "",
+      roomType: "",
+      roomImage: "",
+      roomPrice: "",
+      roomMember: "",
+      profession: "",
       profilePicture: "",
-      schoolOrCollege: "",
-      teachingSubject: "",
-      teachingLanguage: "",
+      gender: IGender.MALE,
+      status: IStatus.PENDING,
+      whoIsUsing: IWhoIsUsing.RENTER,
     });
   };
 
@@ -84,8 +103,7 @@ const AddTeacherForm = () => {
     setUploading(true);
 
     try {
-      // Submit teacher data
-      const teacherResponse = await fetch("/api/teachers", {
+      const roomResponse = await fetch("/api/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,18 +111,18 @@ const AddTeacherForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!roomResponse.ok) {
+        const error = await roomResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher created successfully",
+        description: "Room created successfully",
       });
 
       resetForm();
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_ROOM);
     } catch (error) {
       toast({
         title: "Error",
@@ -120,18 +138,26 @@ const AddTeacherForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add New Teacher</CardTitle>
+        <CardTitle>Add New Room</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Image Upload Component */}
             <div className="col-span-full flex justify-center mb-6">
               <ImageUpload
+                uploadName="Profile Picture"
                 onUpload={handleProfilePictureUpload}
+                className="w-full max-w-xs"
+                imageId="profile-image"
+              />
+              <ImageUpload
+                imageId="room-image"
+                uploadName="Room Image"
+                onUpload={handleRoomPictureUpload}
                 className="w-full max-w-xs"
               />
             </div>
+ 
             <FloatingInput
               placeholder="Full Name"
               id="name"
@@ -168,48 +194,41 @@ const AddTeacherForm = () => {
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
+              placeholder="Room Type"
+              id="roomType"
+              name="roomType"
               type="text"
-              value={formData.experience}
+              value={formData.roomType}
+              onChange={handleInputChange}
+              required={false}
+            />
+
+            <FloatingInput
+              placeholder="Room Price"
+              id="roomPrice"
+              name="roomPrice"
+              type="text"
+              value={formData.roomPrice}
               onChange={handleInputChange}
               required={false}
             />
             <FloatingInput
-              placeholder="Qualification"
-              id="qualification"
-              name="qualification"
+              placeholder="Room Member"
+              id="roomMember "
+              name="roomMember"
               type="text"
-              value={formData.qualification}
+              value={formData.roomMember}
               onChange={handleInputChange}
               required={false}
             />
             <FloatingInput
-              placeholder="School/College"
-              id="schoolOrCollege"
-              name="schoolOrCollege"
+              placeholder="Date Of Birth"
+              id="dob "
+              name="dob"
               type="text"
-              value={formData.schoolOrCollege}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
-              type="text"
-              value={formData.teachingSubject}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
-              type="text"
-              value={formData.teachingLanguage}
+              value={formData.dob}
               onChange={handleInputChange}
               required={false}
             />
@@ -223,27 +242,35 @@ const AddTeacherForm = () => {
               value={formData.gender}
               onChange={handleGenderChange}
             />
-
             <CheckBox
               data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
+                { id: "owner", label: "Owner", value: IWhoIsUsing.OWNER },
+                { id: "renter", label: "Renter", value: IWhoIsUsing.RENTER },
               ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
+              label="Who is using the property"
+              value={formData.whoIsUsing}
+              onChange={handleWhoIsUsingChange}
+            />
+            <CheckBox
+              data={[
+                { id: "approved", label: "Approved", value: IStatus.APPROVED },
+                { id: "pending", label: "Pending", value: IStatus.PENDING },
+              ]}
+              label="Status"
+              value={formData.status}
+              onChange={handleStatusChange}
             />
 
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_ROOM)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Adding Teacher..." : "Add Teacher"}
+                {uploading ? "Adding Room..." : "Add Room"}
               </Button>
             </div>
           </div>
@@ -253,4 +280,4 @@ const AddTeacherForm = () => {
   );
 };
 
-export default AddTeacherForm;
+export default AddRoomForm;

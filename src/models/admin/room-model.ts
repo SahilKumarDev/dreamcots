@@ -1,8 +1,12 @@
-import { ICoaching, IGender, ITeacher } from "@/types/admin/teacher-types";
+import { IGender, IRoom, IWhoIsUsing, IStatus } from "@/types/admin/room-types";
 import mongoose, { Schema } from "mongoose";
 
-const TeacherSchema: Schema<ITeacher> = new Schema(
+const RoomSchema: Schema<IRoom> = new Schema(
   {
+    number: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -12,39 +16,42 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
       required: true,
       unique: true,
     },
-    number: {
-      type: String,
-      required: true,
-    },
-    address: {
-      type: String,
-    },
     gender: {
       type: String,
       enum: Object.values(IGender),
       required: true,
     },
+    dob: {
+      type: String,
+    },
+    profession: {
+      type: String,
+    },
     profilePicture: {
       type: String,
     },
-    coaching: {
+    address: {
       type: String,
-      enum: Object.values(ICoaching),
+    },
+    status: {
+      type: String,
+      enum: Object.values(IStatus),
+    },
+    whoIsUsing: {
+      type: String,
+      enum: Object.values(IWhoIsUsing),
       required: true,
     },
-    experience: {
+    roomPrice: {
       type: String,
     },
-    qualification: {
+    roomType: {
       type: String,
     },
-    schoolOrCollege: {
+    roomMember: {
       type: String,
     },
-    teachingSubject: {
-      type: String,
-    },
-    teachingLanguage: {
+    roomImage: {
       type: String,
     },
   },
@@ -53,6 +60,5 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
   }
 );
 
-const Teacher =
-  mongoose.models.Teacher || mongoose.model("Teacher", TeacherSchema);
-export default Teacher;
+const Room = mongoose.models.Room || mongoose.model("Room", RoomSchema);
+export default Room;

@@ -10,17 +10,17 @@ export const ADMIN_STUDENT_ADD = "/admin/students/add-student";
 export const ADMIN_STUDENT_VIEW = "/admin/students/student-";
 export const ADMIN_STUDENT_EDIT = "/admin/students/update_student-";
 
-// Student URL Routes
-export const ADMIN_USER = "/admin/users";
-export const ADMIN_USER_ADD = "/admin/users/add-user";
-export const ADMIN_USER_VIEW = "/admin/users/user-";
-export const ADMIN_USER_EDIT = "/admin/users/update-";
-
-// Student URL Routes
+// Room URL Routes
 export const ADMIN_ROOM = "/admin/rooms";
 export const ADMIN_ROOM_ADD = "/admin/rooms/add-room";
 export const ADMIN_ROOM_VIEW = "/admin/rooms/room-";
-export const ADMIN_ROOM_EDIT = "/admin/rooms/update-";
+export const ADMIN_ROOM_EDIT = "/admin/rooms/update_room-";
+
+// User URL Routes
+export const ADMIN_USER = "/admin/users";
+export const ADMIN_USER_ADD = "/admin/users/add-user";
+export const ADMIN_USER_VIEW = "/admin/users/user-";
+export const ADMIN_USER_EDIT = "/admin/users/update_user-";
 
 // Student URL Routes
 export const ADMIN_SCHOOL_COLLEGE = "/admin/schools-colleges";

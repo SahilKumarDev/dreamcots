@@ -19,7 +19,7 @@ export const projects = [
     id: 2,
     name: "user",
     icon: User2,
-    url: "/user",
+    url: "/users",
   },
   {
     id: 3,

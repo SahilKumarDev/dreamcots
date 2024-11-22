@@ -1,18 +1,31 @@
-export interface ITeacher {
+export interface IRoom {
   _id: string;
+
+  // Page One
+  number: string;
+
+  // Page Two
   name: string;
   email: string;
-  number: string;
-  address: string;
-  experience: string;
-  qualification: string;
-  profilePicture: string;
-  schoolOrCollege: string;
-  teachingSubject: string;
-  teachingLanguage: string;
-
   gender: IGender;
-  coaching: ICoaching;
+  dob: string;
+  profession: string;
+  profilePicture: string;
+
+  // Page Three
+  address: string;
+
+  // Payment
+  status: IStatus;
+  
+  // Page Four
+  whoIsUsing: IWhoIsUsing;
+
+  // Room
+  roomPrice: string;
+  roomType: string;
+  roomMember: string;
+  roomImage: string;
 }
 
 export enum IGender {
@@ -20,7 +33,13 @@ export enum IGender {
   FEMALE = "female",
 }
 
-export enum ICoaching {
-  YES = "yes",
-  NO = "no",
+export enum IStatus {
+  PENDING = "pending",
+  APPROVED = "approved",
 }
+
+export enum IWhoIsUsing {
+  OWNER = "owner",
+  RENTER = "renter",
+}
+ 

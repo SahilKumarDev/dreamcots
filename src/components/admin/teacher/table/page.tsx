@@ -5,6 +5,7 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { useToast } from "@/hooks/use-toast";
 import { ITeacher } from "@/types/admin/teacher-types";
+import Loader from "@/components/loader/Loader";
 
 export default function TeacherData() {
   const [teachers, setTeachers] = useState<ITeacher[]>([]);
@@ -32,7 +33,7 @@ export default function TeacherData() {
   }, [toast]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

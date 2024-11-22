@@ -1,11 +1,11 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
+import { useRoomActions } from "@/hooks/admin/useRoomAction";
 import Heading from "@/components/admin/_components/Heading";
-import { ITeacher } from "@/types/admin/teacher-types";
+import { IRoom } from "@/types/admin/room-types";
 import { Separator } from "@/components/ui/separator";
-import { ADMIN_TEACHER_EDIT } from "@/utils/routes";
+import { ADMIN_ROOM_EDIT } from "@/utils/routes";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/loader/Loader";
@@ -13,40 +13,40 @@ import { useRouter } from "next/navigation";
 import { Waypoints } from "lucide-react";
 import Image from "next/image";
 
-const ViewPage = ({ slugId }: { slugId: string }) => {
+const RoomViewPage = ({ slugId }: { slugId: string }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [teacher, setTeacher] = useState<ITeacher | null>(null);
+  const [room, setRoom] = useState<IRoom | null>(null);
 
-  const { handleViewTeacher } = useTeacherActions({
-    teacherId: slugId,
+  const { handleViewRoom } = useRoomActions({
+    roomId: slugId,
   });
 
   const router = useRouter();
-  const teacherEdit = `${ADMIN_TEACHER_EDIT}${slugId}`;
+  const roomEdit = `${ADMIN_ROOM_EDIT}${slugId}`;
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchRoomData = async () => {
       try {
         setIsLoading(true);
-        const data = await handleViewTeacher(slugId);
+        const data = await handleViewRoom(slugId);
 
-        setTeacher(data);
+        setRoom(data);
       } catch (error) {
         console.error("View error:", error);
-        setTeacher(null);
+        setRoom(null);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchTeacherData();
+    fetchRoomData();
   }, [slugId]);
 
   const onEdit = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(slugId);
-      router.push(teacherEdit);
+      await handleViewRoom(slugId);
+      router.push(roomEdit);
     } catch (error) {
       console.error("Edit error:", error);
     } finally {
@@ -58,7 +58,7 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
     return <Loader />;
   }
 
-  if (!teacher) {
+  if (!room) {
     return (
       <div className="h-full w-full flex-center">
         <p className="text-lg text-gray-500">
@@ -72,7 +72,7 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
     <Card className="px-2 py-2 ">
       <CardHeader className="text-center text-2xl ">
         <CardTitle className="font-normal">
-          Profile of <span className="underline">{teacher.name}</span>
+          Profile of <span className="underline">{room.name}</span>
         </CardTitle>
       </CardHeader>
 
@@ -82,16 +82,16 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
         <div className="flex-between h-fit">
           <div className="flex-center gap-2">
             <Image
-              src={teacher.profilePicture}
+              src={room.profilePicture}
               alt="profile"
               width={100}
               height={100}
               className="h-20 w-20 rounded-full "
             />
             <div>
-              <h2 className="text-lg font-semibold">Name:- {teacher.name}</h2>
+              <h2 className="text-lg font-semibold">Name:- {room.name}</h2>
               <small className="text-sm font-medium leading-none">
-                Email:- {teacher.email}
+                Email:- {room.email}
               </small>
             </div>
           </div>
@@ -105,20 +105,27 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
         <Separator className="my-8" />
 
         <div className="grid-layout">
-          <Heading text={`Name:- ${teacher.name}`} />
-          <Heading text={`Number:- ${teacher.number}`} />
-          <Heading text={`Experience:- ${teacher.experience}`} />
-          <Heading text={`Qualification:- ${teacher.qualification}`} />
-          <Heading text={`School or College:- ${teacher.schoolOrCollege}`} />
-          <Heading text={`Coaching:- ${teacher.coaching}`} />
-          <Heading text={`Teaching Language:- ${teacher.teachingLanguage}`} />
-          <Heading text={`Teaching Subject:- ${teacher.teachingSubject}`} />
-          <Heading text={`Gender:- ${teacher.gender}`} />
-          <Heading text={`Address:- ${teacher.address}`} />
+          <Heading text={`Number:- ${room.number}`} />
+          <Heading text={`Date of Birth:- ${room.dob}`} />
+          <Heading text={`Status:- ${room.status}`} />
+          <Heading text={`Address:- ${room.address}`} />
+          <Heading text={`Room Member:- ${room.roomMember}`} />
+          <Heading text={`Gender:- ${room.gender}`} />
+          <Heading text={`Profession:- ${room.profession}`} />
+          <Heading text={`Room Type:- ${room.roomType}`} />
+          <Heading text={`Room Price:- ${room.roomPrice}`} />
+          <Heading text={`Who is using:- ${room.whoIsUsing}`} />
+          <Image
+            src={room.roomImage}
+            alt={"Room image "}
+            height={300}
+            width={300}
+            className=" rounded-lg mt-8"
+          />
         </div>
       </CardContent>
     </Card>
   );
 };
 
-export default ViewPage;
+export default RoomViewPage;

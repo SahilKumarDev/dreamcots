@@ -6,45 +6,47 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState, useEffect } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
+import { IRoom, IGender, IStatus, IWhoIsUsing } from "@/types/admin/room-types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_ROOM } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
 import Loader from "@/components/loader/Loader";
 
-const UpdatePage = ({ slugId }: { slugId: string }) => {
+const RoomUpdatePage = ({ slugId }: { slugId: string }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const teacherId = slugId;
+  const roomId = slugId;
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<IRoom>>({
+    dob: "",
     name: "",
     email: "",
     number: "",
     address: "",
-    gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
-    qualification: "",
+    roomType: "",
+    roomImage: "",
+    roomPrice: "",
+    roomMember: "",
+    profession: "",
     profilePicture: "",
-    schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
+    gender: IGender.MALE,
+    status: IStatus.PENDING,
+    whoIsUsing: IWhoIsUsing.RENTER,
   });
 
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchRoomData = async () => {
       try {
-        const response = await fetch(`/api/teachers/${teacherId}`);
+        const response = await fetch(`/api/rooms/${roomId}`);
         if (!response.ok) {
-          throw new Error("Failed to fetch teacher data");
+          throw new Error("Failed to fetch room data");
         }
-        const teacherData = await response.json();
-        setFormData(teacherData);
+        const roomData = await response.json();
+        setFormData(roomData);
         setLoading(false);
       } catch (error) {
         toast({
@@ -52,17 +54,17 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
           description:
             error instanceof Error
               ? error.message
-              : "An error occurred while fetching teacher data",
+              : "An error occurred while fetching room data",
           variant: "destructive",
         });
-        router.push(ADMIN_TEACHER);
+        router.push(ADMIN_ROOM);
       }
     };
 
-    if (teacherId) {
-      fetchTeacherData();
+    if (roomId) {
+      fetchRoomData();
     }
-  }, [teacherId, toast, router]);
+  }, [roomId, toast, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,10 +81,18 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
+  const handleStatusChange = (value: string) => {
     setFormData((prev) => ({
       ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
+      status: value === IStatus.PENDING ? IStatus.PENDING : IStatus.APPROVED,
+    }));
+  };
+
+  const handleWhoIsUsingChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      whoIsUsing:
+        value === IWhoIsUsing.RENTER ? IWhoIsUsing.RENTER : IWhoIsUsing.OWNER,
     }));
   };
 
@@ -93,13 +103,19 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     }));
   };
 
+  const handleRoomPictureUpload = (url: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      roomImage: url,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
 
     try {
-      // Update teacher data
-      const teacherResponse = await fetch(`/api/teachers/${teacherId}`, {
+      const roomResponse = await fetch(`/api/rooms/${roomId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -107,17 +123,17 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
         body: JSON.stringify(formData),
       });
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!roomResponse.ok) {
+        const error = await roomResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher updated successfully",
+        description: "Room updated successfully",
       });
 
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_ROOM);
     } catch (error) {
       toast({
         title: "Error",
@@ -137,7 +153,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Update Teacher</CardTitle>
+        <CardTitle>Update Room</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -147,6 +163,13 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
                 onUpload={handleProfilePictureUpload}
                 className="w-full max-w-xs"
                 initialImage={formData.profilePicture}
+              />
+
+              <ImageUpload
+                imageId="room-image"
+                uploadName="Room Image"
+                onUpload={handleRoomPictureUpload}
+                className="w-full max-w-xs"
               />
             </div>
             <FloatingInput
@@ -185,48 +208,41 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
+              placeholder="Room Type"
+              id="roomType"
+              name="roomType"
               type="text"
-              value={formData.experience}
+              value={formData.roomType}
+              onChange={handleInputChange}
+              required={false}
+            />
+
+            <FloatingInput
+              placeholder="Room Price"
+              id="roomPrice"
+              name="roomPrice"
+              type="text"
+              value={formData.roomPrice}
               onChange={handleInputChange}
               required={false}
             />
             <FloatingInput
-              placeholder="Qualification"
-              id="qualification"
-              name="qualification"
+              placeholder="Room Member"
+              id="roomMember "
+              name="roomMember"
               type="text"
-              value={formData.qualification}
+              value={formData.roomMember}
               onChange={handleInputChange}
               required={false}
             />
             <FloatingInput
-              placeholder="School/College"
-              id="schoolOrCollege"
-              name="schoolOrCollege"
+              placeholder="Date Of Birth"
+              id="dob "
+              name="dob"
               type="text"
-              value={formData.schoolOrCollege}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
-              type="text"
-              value={formData.teachingSubject}
-              onChange={handleInputChange}
-              required={false}
-            />
-            <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
-              type="text"
-              value={formData.teachingLanguage}
+              value={formData.dob}
               onChange={handleInputChange}
               required={false}
             />
@@ -240,27 +256,35 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               value={formData.gender}
               onChange={handleGenderChange}
             />
-
             <CheckBox
               data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
+                { id: "owner", label: "Owner", value: IWhoIsUsing.OWNER },
+                { id: "renter", label: "Renter", value: IWhoIsUsing.RENTER },
               ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
+              label="Who is using the property"
+              value={formData.whoIsUsing}
+              onChange={handleWhoIsUsingChange}
+            />
+            <CheckBox
+              data={[
+                { id: "approved", label: "Approved", value: IStatus.APPROVED },
+                { id: "pending", label: "Pending", value: IStatus.PENDING },
+              ]}
+              label="Status"
+              value={formData.status}
+              onChange={handleStatusChange}
             />
 
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_ROOM)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Updating Teacher..." : "Update Teacher"}
+                {uploading ? "Updating Room..." : "Update Room"}
               </Button>
             </div>
           </div>
@@ -270,4 +294,4 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   );
 };
 
-export default UpdatePage;
+export default RoomUpdatePage;

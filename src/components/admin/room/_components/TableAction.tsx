@@ -21,12 +21,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import { ITeacher } from "@/types/admin/teacher-types";
-import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
-import { ADMIN_TEACHER_EDIT, ADMIN_TEACHER_VIEW } from "@/utils/routes";
+import { IRoom } from "@/types/admin/room-types";
+import { useRoomActions } from "@/hooks/admin/useRoomAction";
+import { ADMIN_ROOM_EDIT, ADMIN_ROOM_VIEW } from "@/utils/routes";
 
 interface TableActionsProps {
-  item: ITeacher;
+  item: IRoom;
   refreshData?: () => void;
 }
 
@@ -35,19 +35,19 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { handleViewTeacher, handleDeleteTeacher } = useTeacherActions({
-    teacherId: item._id,
+  const { handleViewRoom, handleDeleteRoom } = useRoomActions({
+    roomId: item._id,
     refreshData,
   });
 
-  const teacherView = `${ADMIN_TEACHER_VIEW}${item._id}`;
-  const teacherEdit = `${ADMIN_TEACHER_EDIT}${item._id}`;
+  const roomView = `${ADMIN_ROOM_VIEW}${item._id}`;
+  const roomEdit = `${ADMIN_ROOM_EDIT}${item._id}`;
 
   const onView = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(item._id);
-      router.push(teacherView);
+      await handleViewRoom(item._id);
+      router.push(roomView);
     } catch (error) {
       console.error("View error:", error);
     } finally {
@@ -58,8 +58,8 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const onEdit = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(item._id);
-      router.push(teacherEdit);
+      await handleViewRoom(item._id);
+      router.push(roomEdit);
     } catch (error) {
       console.error("Edit error:", error);
     } finally {
@@ -70,7 +70,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await handleDeleteTeacher(item._id);
+      await handleDeleteRoom(item._id);
       setIsDeleteDialogOpen(false);
       location.reload();
     } catch (error) {
@@ -128,7 +128,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
-              teacher
+              room
               {item.name && ` "${item.name}"`} and remove their data from the
               system.
             </AlertDialogDescription>

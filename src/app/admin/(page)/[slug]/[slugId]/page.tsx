@@ -1,12 +1,23 @@
-import AddTeacherForm from "@/components/admin/teacher/_components/AddForm";
 import AdminPageWrapper from "@/components/admin/AdminPageWrapper";
 import PageNotFound from "@/page/not-found/PageNotFound";
 import { subString } from "@/utils/sub-string-utils";
-import AddStudentForm from "@/components/admin/student/_components/AddForm";
-import TeacherViewPage from "@/components/admin/teacher/ViewPage";
+
+// Teacher Page
+import AddTeacherForm from "@/components/admin/teacher/_components/AddForm";
 import TeacherUpdatePage from "@/components/admin/teacher/UpdatePage";
-import StudentViewPage from "@/components/admin/student/ViewPage";
+import TeacherViewPage from "@/components/admin/teacher/ViewPage";
+
+// Student Page
+import AddStudentForm from "@/components/admin/student/_components/AddForm";
 import StudentUpdatePage from "@/components/admin/student/UpdatePage";
+import StudentViewPage from "@/components/admin/student/ViewPage";
+
+// Room Page
+import AddRoomForm from "@/components/admin/room/_components/AddForm";
+import RoomUpdatePage from "@/components/admin/room/UpdatePage";
+import RoomViewPage from "@/components/admin/room/ViewPage";
+
+
 
 const SlugIdPage = async ({
   params,
@@ -32,6 +43,14 @@ const SlugIdPage = async ({
         return <StudentViewPage slugId={subString(slugId, "-")} />;
       case `update_student-${subString(slugId, "-")}`:
         return <StudentUpdatePage slugId={subString(slugId, "-")} />;
+
+      // Room URL Routes
+      case "add-room":
+        return <AddRoomForm />;
+      case `room-${subString(slugId, "-")}`:
+        return <RoomViewPage slugId={subString(slugId, "-")} />;
+      case `update_room-${subString(slugId, "-")}`:
+        return <RoomUpdatePage slugId={subString(slugId, "-")} />;
 
       default:
         return <PageNotFound />;

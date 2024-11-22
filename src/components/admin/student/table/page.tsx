@@ -5,6 +5,7 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { useToast } from "@/hooks/use-toast";
 import { IStudent } from "@/types/admin/student-types";
+import Loader from "@/components/loader/Loader";
 
 export default function StudentData() {
   const [students, setStudents] = useState<IStudent[]>([]);
@@ -32,11 +33,11 @@ export default function StudentData() {
   }, [toast]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mxs-auto">
       <DataTable columns={columns} data={students} />
     </div>
   );

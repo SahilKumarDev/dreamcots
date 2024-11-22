@@ -16,9 +16,9 @@ const AdminSlugPage = async ({
 
   const renderPage = () => {
     switch (slug) {
-      case "room":
+      case "rooms":
         return <RoomPage />;
-      case "user":
+      case "users":
         return <UserPage />;
       case "teachers":
         return <TeacherPage />;

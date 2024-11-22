@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ITeacher } from "@/types/admin/teacher-types";
-import Teacher from "@/models/admin/teacher-model";
+import { IRoom } from "@/types/admin/room-types";
+import Room from "@/models/admin/room-model";
 import { connectDB } from "@/database/connectDB";
 import { FilterQuery } from "mongoose";
 
@@ -13,16 +13,16 @@ interface Params {
 export async function GET(request: NextRequest, { params }: Params) {
   try {
     await connectDB();
-    const teacher = await Teacher.findById(params.id);
+    const room = await Room.findById(params.id);
 
-    if (!teacher) {
-      return NextResponse.json({ error: "Teacher not found" }, { status: 404 });
+    if (!room) {
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
 
-    return NextResponse.json(teacher, { status: 200 });
+    return NextResponse.json(room, { status: 200 });
   } catch {
     return NextResponse.json(
-      { error: "Failed to fetch teacher" },
+      { error: "Failed to fetch room" },
       { status: 500 }
     );
   }
@@ -31,21 +31,21 @@ export async function GET(request: NextRequest, { params }: Params) {
 export async function PUT(request: NextRequest, { params }: Params) {
   try {
     await connectDB();
-    const body: Partial<ITeacher> = await request.json();
+    const body: Partial<IRoom> = await request.json();
 
     if (body.email) {
-      const orConditions: FilterQuery<ITeacher>[] = [];
+      const orConditions: FilterQuery<IRoom>[] = [];
 
       if (body.email) {
         orConditions.push({ email: body.email });
       }
 
-      const existingTeacher = await Teacher.findOne({
+      const existingRoom = await Room.findOne({
         _id: { $ne: params.id },
         $or: orConditions,
       });
 
-      if (existingTeacher) {
+      if (existingRoom) {
         return NextResponse.json(
           { error: "Email already in use" },
           { status: 400 }
@@ -53,20 +53,20 @@ export async function PUT(request: NextRequest, { params }: Params) {
       }
     }
 
-    const updatedTeacher = await Teacher.findByIdAndUpdate(
+    const updatedRoom = await Room.findByIdAndUpdate(
       params.id,
       { $set: body },
       { new: true, runValidators: true }
     );
 
-    if (!updatedTeacher) {
-      return NextResponse.json({ error: "Teacher not found" }, { status: 404 });
+    if (!updatedRoom) {
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
 
-    return NextResponse.json(updatedTeacher, { status: 200 });
+    return NextResponse.json(updatedRoom, { status: 200 });
   } catch {
     return NextResponse.json(
-      { error: "Failed to update teacher" },
+      { error: "Failed to update room" },
       { status: 500 }
     );
   }
@@ -75,19 +75,19 @@ export async function PUT(request: NextRequest, { params }: Params) {
 export async function DELETE(request: NextRequest, { params }: Params) {
   try {
     await connectDB();
-    const deletedTeacher = await Teacher.findByIdAndDelete(params.id);
+    const deletedRoom = await Room.findByIdAndDelete(params.id);
 
-    if (!deletedTeacher) {
-      return NextResponse.json({ error: "Teacher not found" }, { status: 404 });
+    if (!deletedRoom) {
+      return NextResponse.json({ error: "Room not found" }, { status: 404 });
     }
 
     return NextResponse.json(
-      { message: "Teacher deleted successfully" },
+      { message: "Room deleted successfully" },
       { status: 200 }
     );
   } catch {
     return NextResponse.json(
-      { error: "Failed to delete teacher" },
+      { error: "Failed to delete room" },
       { status: 500 }
     );
   }

@@ -1,16 +1,39 @@
 "use client";
 
-import TableAction from "@/components/admin/teacher/_components/TableAction";
-import { ITeacher } from "@/types/admin/teacher-types";
+import TableAction from "@/components/admin/room/_components/TableAction";
+import { IRoom } from "@/types/admin/room-types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 
-export const columns: ColumnDef<ITeacher>[] = [
+export const columns: ColumnDef<IRoom>[] = [
+  {
+    accessorKey: "roomImage",
+    header: "Room Image",
+    cell: ({ row }) => {
+      const imageUrl = row.original.roomImage;
+
+      return (
+        <>
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="profile"
+              width={50}
+              height={50}
+              className="rounded-full object-cover w-9 h-9"
+            />
+          ) : (
+            <h1>Upload image</h1>
+          )}
+        </>
+      );
+    },
+  },
   {
     accessorKey: "profilePicture",
-    header: "Image",
+    header: "Profile Image",
     cell: ({ row }) => {
       const imageUrl = row.original.profilePicture;
 
@@ -58,24 +81,24 @@ export const columns: ColumnDef<ITeacher>[] = [
     header: "Gender",
   },
   {
-    accessorKey: "experience",
-    header: "Exp...",
+    accessorKey: "status",
+    header: "Status",
   },
   {
     accessorKey: "address",
     header: "Address",
   },
   {
-    accessorKey: "teachingLanguage",
-    header: "Language",
+    accessorKey: "roomMember",
+    header: "Room Member",
   },
   {
-    accessorKey: "qualification",
-    header: "Qualifi...",
+    accessorKey: "roomPrice",
+    header: "Room price",
   },
   {
-    accessorKey: "teachingSubject",
-    header: "Subject",
+    accessorKey: "whoIsUsing",
+    header: "Who",
   },
 
   {

@@ -9,10 +9,14 @@ interface ImageUploadProps {
   onUpload: (url: string) => void;
   initialImage?: string;
   className?: string;
+  uploadName?: string;
+  imageId?: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onUpload,
+  imageId,
+  uploadName,
   initialImage,
   className = "",
 }) => {
@@ -27,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
- 
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result as string);
@@ -61,7 +65,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       });
       onUpload(result.url);
     } catch (error) {
-      console.error("Upload error:", error); 
+      console.error("Upload error:", error);
     } finally {
       setUploading(false);
     }
@@ -86,7 +90,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onChange={handleFileChange}
         accept="image/png, image/jpeg, image/jpg"
         className="hidden"
-        id="image-upload"
+        id={imageId || "image-upload"}
       />
 
       <div className="relative w-48 h-48 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
@@ -108,11 +112,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </>
         ) : (
           <label
-            htmlFor="image-upload"
-            className="cursor-pointer flex flex-col items-center justify-center"
+            htmlFor={imageId || "image-upload"}
+            className="cursor-pointer flex flex-col items-center justify-center text-center"
           >
             <ImagePlus size={48} className="text-gray-400" />
-            <span className="text-gray-500 mt-2">Upload Image</span>
+            <span className="text-gray-500 mt-2">
+              Upload {uploadName} Image
+            </span>
           </label>
         )}
       </div>
