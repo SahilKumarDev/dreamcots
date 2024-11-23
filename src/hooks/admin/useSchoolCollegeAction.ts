@@ -1,71 +1,71 @@
-import { ITeacher } from "@/types/admin/teacher-types";
-
+ 
 import axios from "axios";
 import { useToast } from "../use-toast";
+import { ISchoolCollege } from "@/types/admin/school-college-types";
 
-interface ITeacherActions {
-  teacherId: string;
+interface ISchoolCollegeActions {
+  schoolCollegeId: string;
   refreshData?: () => void;
 }
 
-export const useTeacherActions = ({ refreshData }: ITeacherActions) => {
+export const useSchoolCollegeActions = ({ refreshData }: ISchoolCollegeActions) => {
   const { toast } = useToast();
 
-  // View Teacher Details
-  const handleViewTeacher = async (id: string) => {
+  // View School College Details
+  const handleViewSchoolCollege = async (id: string) => {
     try {
-      const response = await axios.get(`/api/teachers/${id}`);
+      const response = await axios.get(`/api/schools-colleges/${id}`);
       toast({
         title: "Success",
-        description: "Teacher details",
+        description: "School College details",
       });
       return response.data;
     } catch {
       toast({
         title: "Error",
-        description: "Failed to fetch teacher details",
+        description: "Failed to fetch school college details",
       });
     }
   };
 
-  // Edit Teacher
-  const handleEditTeacher = async (id: string, data: ITeacher) => {
+  // Edit School College
+  const handleEditSchoolCollege = async (id: string, data: ISchoolCollege) => {
     try {
-      const response = await axios.put(`/api/teachers/${id}`, data);
+      const response = await axios.put(`/api/schools-colleges/${id}`, data);
       toast({
         title: "Success",
-        description: "Teacher has been updated",
+        description: "School College has been updated",
       });
       refreshData?.();
       return response.data;
     } catch {
       toast({
         title: "Error",
-        description: "Failed to fetch teacher details",
+        description: "Failed to fetch school college details",
       });
     }
   };
 
-  // Delete Teacher
-  const handleDeleteTeacher = async (id: string) => {
+  // Delete School College
+  const handleDeleteSchoolCollege = async (id: string) => {
     try {
-      await axios.delete(`/api/teachers/${id}`);
+      await axios.delete(`/api/schools-colleges/${id}`);
       toast({
         title: "Success",
-        description: "Teacher has been deleted",
+        description: "School College has been deleted",
       });
       refreshData?.();
     } catch {
       toast({
         title: "Error",
-        description: "Failed to delete teacher details",
+        description: "Failed to delete school college details",
       });
     }
   };
 
   return {
-    handleViewTeacher,
-    handleEditTeacher,
-    handleDeleteTeacher,
+    handleViewSchoolCollege,
+    handleEditSchoolCollege,
+    handleDeleteSchoolCollege,
   };
 };

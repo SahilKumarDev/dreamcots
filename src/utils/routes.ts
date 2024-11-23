@@ -22,8 +22,8 @@ export const ADMIN_USER_ADD = "/admin/users/add-user";
 export const ADMIN_USER_VIEW = "/admin/users/user-";
 export const ADMIN_USER_EDIT = "/admin/users/update_user-";
 
-// Student URL Routes
+// School College URL Routes
 export const ADMIN_SCHOOL_COLLEGE = "/admin/schools-colleges";
 export const ADMIN_SCHOOL_COLLEGE_ADD = "/admin/schools-colleges/add-school-college";
-export const ADMIN_SCHOOL_COLLEGE_VIEW = "/admin/schools-colleges/school-college";
-export const ADMIN_SCHOOL_COLLEGE_EDIT = "/admin/schools-colleges/update-";
+export const ADMIN_SCHOOL_COLLEGE_VIEW = "/admin/schools-colleges/school_college-";
+export const ADMIN_SCHOOL_COLLEGE_EDIT = "/admin/schools-colleges/update_school_college-";

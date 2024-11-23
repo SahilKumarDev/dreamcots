@@ -17,6 +17,11 @@ import AddRoomForm from "@/components/admin/room/_components/AddForm";
 import RoomUpdatePage from "@/components/admin/room/UpdatePage";
 import RoomViewPage from "@/components/admin/room/ViewPage";
 
+// School College Page
+import AddSchoolCollegeForm from "@/components/admin/school-college/_components/AddForm";
+import SchoolCollegeUpdatePage from "@/components/admin/school-college/UpdatePage";
+import SchoolCollegeViewPage from "@/components/admin/school-college/ViewPage";
+
 
 
 const SlugIdPage = async ({
@@ -51,6 +56,14 @@ const SlugIdPage = async ({
         return <RoomViewPage slugId={subString(slugId, "-")} />;
       case `update_room-${subString(slugId, "-")}`:
         return <RoomUpdatePage slugId={subString(slugId, "-")} />;
+
+      // School College URL Routes
+      case "add-school-college":
+        return <AddSchoolCollegeForm />;
+      case `school_college-${subString(slugId, "-")}`:
+        return <SchoolCollegeViewPage slugId={subString(slugId, "-")} />;
+      case `update_school_college-${subString(slugId, "-")}`:
+        return <SchoolCollegeUpdatePage slugId={subString(slugId, "-")} />;
 
       default:
         return <PageNotFound />;

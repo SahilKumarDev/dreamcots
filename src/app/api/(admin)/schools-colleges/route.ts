@@ -1,19 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
-import Teacher from "@/models/admin/teacher-model";
+
 import { connectDB } from "@/database/connectDB";
+import SchoolCollege from "@/models/admin/school-college-model";
+import { IGender, ISchoolCollege } from "@/types/admin/school-college-types";
 
 export async function GET() {
   try {
     await connectDB();
-    const teachers = await Teacher.find({}).sort({ createdAt: -1 });
-    return NextResponse.json(teachers, { status: 200 });
+    const schoolCollege = await SchoolCollege.find({}).sort({ createdAt: -1 });
+    return NextResponse.json(schoolCollege, { status: 200 });
   } catch (error) {
     console.log("====================================");
-    console.log("Internal server error from GET api of Teachers:- ", error);
+    console.log(
+      "Internal server error from GET api of School College:- ",
+      error
+    );
     console.log("====================================");
     return NextResponse.json(
-      { error: "Failed to fetch teachers" },
+      { error: "Failed to fetch School College" },
       { status: 500 }
     );
   }
@@ -22,43 +26,38 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    const body: ITeacher = await request.json();
+    const body: ISchoolCollege = await request.json();
 
-    // Validate enum values
     if (body.gender && !Object.values(IGender).includes(body.gender)) {
       return NextResponse.json(
         { error: "Invalid gender value" },
         { status: 400 }
       );
-    }
+    } 
 
-    if (body.coaching && !Object.values(ICoaching).includes(body.coaching)) {
-      return NextResponse.json(
-        { error: "Invalid coaching value" },
-        { status: 400 }
-      );
-    }
-
-    const existingTeacher = await Teacher.findOne({
+    const existingSchoolCollege = await SchoolCollege.findOne({
       $or: [{ email: body.email }, { number: body.number }],
     });
 
-    if (existingTeacher) {
+    if (existingSchoolCollege) {
       return NextResponse.json(
-        { error: "Teacher with this email or number already exists" },
+        { error: "School College with this email or number already exists" },
         { status: 400 }
       );
     }
 
-    const teacher = await Teacher.create(body);
-    return NextResponse.json(teacher, { status: 201 });
+    const schoolCollege = await SchoolCollege.create(body);
+    return NextResponse.json(schoolCollege, { status: 201 });
   } catch (error) {
     console.log("====================================");
-    console.log("Internal server error from POST api of Teachers:- ", error);
+    console.log(
+      "Internal server error from POST api of School College:- ",
+      error
+    );
     console.log("====================================");
     return NextResponse.json(
       {
-        error: "Failed to create teacher",
+        error: "Failed to create School College",
         details: error instanceof Error ? error.message : error,
       },
       { status: 500 }

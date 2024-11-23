@@ -6,45 +6,56 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState, useEffect } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_SCHOOL_COLLEGE } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
 import Loader from "@/components/loader/Loader";
+import { IGender, ISchoolCollege } from "@/types/admin/school-college-types";
 
-const UpdatePage = ({ slugId }: { slugId: string }) => {
+const SchoolCollegeUpdatePage = ({ slugId }: { slugId: string }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const teacherId = slugId;
+  const schoolCollegeId = slugId;
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<ISchoolCollege>>({
     name: "",
+    link: "",
     email: "",
+    about: "",
     number: "",
+    events: "",
     address: "",
-    gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
-    qualification: "",
+    interests: "",
+    facilities: "",
+    modeOfStudy: "",
+    competitions: "",
+    teacherCount: "",
+    infrastructure: "",
     profilePicture: "",
-    schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
+    sportAndFitness: "",
+    typeOfEducation: "",
+    highestEducation: "",
+    admissionProcess: "",
+    parentInstitution: "",
+    advancedFacilities: "",
+    yearOfEstablishment: "",
+
+    gender: IGender.MALE,
   });
 
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchSchoolCollegeData = async () => {
       try {
-        const response = await fetch(`/api/teachers/${teacherId}`);
+        const response = await fetch(`/api/schools-colleges/${schoolCollegeId}`);
         if (!response.ok) {
-          throw new Error("Failed to fetch teacher data");
+          throw new Error("Failed to fetch school college data");
         }
-        const teacherData = await response.json();
-        setFormData(teacherData);
+        const schoolCollegeData = await response.json();
+        setFormData(schoolCollegeData);
         setLoading(false);
       } catch (error) {
         toast({
@@ -52,17 +63,17 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
           description:
             error instanceof Error
               ? error.message
-              : "An error occurred while fetching teacher data",
+              : "An error occurred while fetching School College data",
           variant: "destructive",
         });
-        router.push(ADMIN_TEACHER);
+        router.push(ADMIN_SCHOOL_COLLEGE);
       }
     };
 
-    if (teacherId) {
-      fetchTeacherData();
+    if (schoolCollegeId) {
+      fetchSchoolCollegeData();
     }
-  }, [teacherId, toast, router]);
+  }, [schoolCollegeId, toast, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -79,13 +90,6 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
-    }));
-  };
-
   const handleProfilePictureUpload = (url: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -98,26 +102,28 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
     setUploading(true);
 
     try {
-      // Update teacher data
-      const teacherResponse = await fetch(`/api/teachers/${teacherId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const schoolCollegeResponse = await fetch(
+        `/api/schools-colleges/${schoolCollegeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!schoolCollegeResponse.ok) {
+        const error = await schoolCollegeResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher updated successfully",
+        description: "School College updated successfully",
       });
 
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_SCHOOL_COLLEGE);
     } catch (error) {
       toast({
         title: "Error",
@@ -137,7 +143,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Update Teacher</CardTitle>
+        <CardTitle>Update School College</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -149,6 +155,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
                 initialImage={formData.profilePicture}
               />
             </div>
+
             <FloatingInput
               placeholder="Full Name"
               id="name"
@@ -158,6 +165,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={true}
             />
+
             <FloatingInput
               placeholder="Email"
               id="email"
@@ -167,6 +175,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={true}
             />
+
             <FloatingInput
               placeholder="Phone Number"
               id="number"
@@ -176,6 +185,7 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={true}
             />
+
             <FloatingInput
               placeholder="Address"
               id="address"
@@ -185,48 +195,163 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
+              placeholder="Link"
+              id="link"
+              name="link"
               type="text"
-              value={formData.experience}
+              value={formData.link}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="About"
+              id="about"
+              name="about"
+              type="text"
+              value={formData.about}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Event"
+              id="events"
+              name="events"
+              type="text"
+              value={formData.events}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Qualification"
-              id="qualification"
-              name="qualification"
+              placeholder="interests"
+              id="interests"
+              name="interests"
               type="text"
-              value={formData.qualification}
+              value={formData.interests}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="School/College"
-              id="schoolOrCollege"
-              name="schoolOrCollege"
+              placeholder="Facilities"
+              id="facilities"
+              name="facilities"
               type="text"
-              value={formData.schoolOrCollege}
+              value={formData.facilities}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Mode Of Study"
+              id="modeOfStudy"
+              name="modeOfStudy"
+              type="text"
+              value={formData.modeOfStudy}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Competitions"
+              id="competitions"
+              name="competitions"
+              type="text"
+              value={formData.competitions}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Teacher Count"
+              id="teacherCount"
+              name="teacherCount"
+              type="text"
+              value={formData.teacherCount}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
+              placeholder="Infrastructure"
+              id="infrastructure"
+              name="infrastructure"
               type="text"
-              value={formData.teachingSubject}
+              value={formData.infrastructure}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Sport And Fitness"
+              id="sportAndFitness"
+              name="sportAndFitness"
+              type="text"
+              value={formData.sportAndFitness}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Type Of Education"
+              id="typeOfEducation"
+              name="typeOfEducation"
+              type="text"
+              value={formData.typeOfEducation}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Highest Education"
+              id="highestEducation"
+              name="highestEducation"
+              type="text"
+              value={formData.highestEducation}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
+              placeholder="Admission Process"
+              id="admissionProcess"
+              name="admissionProcess"
               type="text"
-              value={formData.teachingLanguage}
+              value={formData.admissionProcess}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Parent Institution"
+              id="parentInstitution"
+              name="parentInstitution"
+              type="text"
+              value={formData.parentInstitution}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Advanced Facilities"
+              id="advancedFacilities"
+              name="advancedFacilities"
+              type="text"
+              value={formData.advancedFacilities}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Year Of Establishment"
+              id="yearOfEstablishment"
+              name="yearOfEstablishment"
+              type="text"
+              value={formData.yearOfEstablishment}
               onChange={handleInputChange}
               required={false}
             />
@@ -241,26 +366,16 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
               onChange={handleGenderChange}
             />
 
-            <CheckBox
-              data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
-              ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
-            />
-
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_SCHOOL_COLLEGE)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Updating Teacher..." : "Update Teacher"}
+                {uploading ? "Updating School College..." : "Update School College"}
               </Button>
             </div>
           </div>
@@ -270,4 +385,4 @@ const UpdatePage = ({ slugId }: { slugId: string }) => {
   );
 };
 
-export default UpdatePage;
+export default SchoolCollegeUpdatePage;

@@ -21,12 +21,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import { ITeacher } from "@/types/admin/teacher-types";
-import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
-import { ADMIN_TEACHER_EDIT, ADMIN_TEACHER_VIEW } from "@/utils/routes";
+import {
+  ADMIN_SCHOOL_COLLEGE_EDIT,
+  ADMIN_SCHOOL_COLLEGE_VIEW,
+} from "@/utils/routes";
+import { ISchoolCollege } from "@/types/admin/school-college-types";
+import { useSchoolCollegeActions } from "@/hooks/admin/useSchoolCollegeAction";
 
 interface TableActionsProps {
-  item: ITeacher;
+  item: ISchoolCollege;
   refreshData?: () => void;
 }
 
@@ -35,19 +38,20 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { handleViewTeacher, handleDeleteTeacher } = useTeacherActions({
-    teacherId: item._id,
-    refreshData,
-  });
+  const { handleViewSchoolCollege, handleDeleteSchoolCollege } =
+    useSchoolCollegeActions({
+      schoolCollegeId: item._id,
+      refreshData,
+    });
 
-  const teacherView = `${ADMIN_TEACHER_VIEW}${item._id}`;
-  const teacherEdit = `${ADMIN_TEACHER_EDIT}${item._id}`;
+  const schoolCollegeView = `${ADMIN_SCHOOL_COLLEGE_VIEW}${item._id}`;
+  const schoolCollegeEdit = `${ADMIN_SCHOOL_COLLEGE_EDIT}${item._id}`;
 
   const onView = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(item._id);
-      router.push(teacherView);
+      await handleViewSchoolCollege(item._id);
+      router.push(schoolCollegeView);
     } catch (error) {
       console.error("View error:", error);
     } finally {
@@ -58,8 +62,8 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const onEdit = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(item._id);
-      router.push(teacherEdit);
+      await handleViewSchoolCollege(item._id);
+      router.push(schoolCollegeEdit);
     } catch (error) {
       console.error("Edit error:", error);
     } finally {
@@ -70,7 +74,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await handleDeleteTeacher(item._id);
+      await handleDeleteSchoolCollege(item._id);
       setIsDeleteDialogOpen(false);
       location.reload();
     } catch (error) {
@@ -128,7 +132,7 @@ const TableActions: React.FC<TableActionsProps> = ({ item, refreshData }) => {
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete the
-              teacher
+              school college
               {item.name && ` "${item.name}"`} and remove their data from the
               system.
             </AlertDialogDescription>

@@ -1,7 +1,7 @@
-import { ICoaching, IGender, ITeacher } from "@/types/admin/teacher-types";
+import { IGender, ISchoolCollege } from "@/types/admin/school-college-types";
 import mongoose, { Schema } from "mongoose";
 
-const TeacherSchema: Schema<ITeacher> = new Schema(
+const SchoolCollegeSchema: Schema<ISchoolCollege> = new Schema(
   {
     name: {
       type: String,
@@ -27,24 +27,52 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
     profilePicture: {
       type: String,
     },
-    coaching: {
-      type: String,
-      enum: Object.values(ICoaching),
-      required: true,
-    },
-    experience: {
+    link: {
       type: String,
     },
-    qualification: {
+    about: {
       type: String,
     },
-    schoolOrCollege: {
+    yearOfEstablishment: {
       type: String,
     },
-    teachingSubject: {
+    parentInstitution: {
       type: String,
     },
-    teachingLanguage: {
+    modeOfStudy: {
+      type: String,
+    },
+    admissionProcess: {
+      type: String,
+    },
+    teacherCount: {
+      type: String,
+    },
+    highestEducation: {
+      type: String,
+    },
+    typeOfEducation: {
+      type: String,
+    },
+    facilities: {
+      type: String,
+    },
+    competitions: {
+      type: String,
+    },
+    events: {
+      type: String,
+    },
+    interests: {
+      type: String,
+    },
+    sportAndFitness: {
+      type: String,
+    },
+    infrastructure: {
+      type: String,
+    },
+    advancedFacilities: {
       type: String,
     },
   },
@@ -53,6 +81,7 @@ const TeacherSchema: Schema<ITeacher> = new Schema(
   }
 );
 
-const Teacher =
-  mongoose.models.Teacher || mongoose.model("Teacher", TeacherSchema);
-export default Teacher;
+const SchoolCollege =
+  mongoose.models.SchoolCollege ||
+  mongoose.model("SchoolCollege", SchoolCollegeSchema);
+export default SchoolCollege;

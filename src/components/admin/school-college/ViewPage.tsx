@@ -1,52 +1,54 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTeacherActions } from "@/hooks/admin/useTeacherAction";
 import Heading from "@/components/admin/_components/Heading";
-import { ITeacher } from "@/types/admin/teacher-types";
 import { Separator } from "@/components/ui/separator";
-import { ADMIN_TEACHER_EDIT } from "@/utils/routes";
+import { ADMIN_SCHOOL_COLLEGE_EDIT } from "@/utils/routes";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/loader/Loader";
 import { useRouter } from "next/navigation";
 import { Waypoints } from "lucide-react";
 import Image from "next/image";
+import { useSchoolCollegeActions } from "@/hooks/admin/useSchoolCollegeAction";
+import { ISchoolCollege } from "@/types/admin/school-college-types";
 
-const ViewPage = ({ slugId }: { slugId: string }) => {
+const SchoolCollegeViewPage = ({ slugId }: { slugId: string }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [teacher, setTeacher] = useState<ITeacher | null>(null);
+  const [schoolColleges, setSchoolColleges] = useState<ISchoolCollege | null>(
+    null
+  );
 
-  const { handleViewTeacher } = useTeacherActions({
-    teacherId: slugId,
+  const { handleViewSchoolCollege } = useSchoolCollegeActions({
+    schoolCollegeId: slugId,
   });
 
   const router = useRouter();
-  const teacherEdit = `${ADMIN_TEACHER_EDIT}${slugId}`;
+  const schoolCollegeEdit = `${ADMIN_SCHOOL_COLLEGE_EDIT}${slugId}`;
 
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const fetchSchoolCollegeData = async () => {
       try {
         setIsLoading(true);
-        const data = await handleViewTeacher(slugId);
+        const data = await handleViewSchoolCollege(slugId);
 
-        setTeacher(data);
+        setSchoolColleges(data);
       } catch (error) {
         console.error("View error:", error);
-        setTeacher(null);
+        setSchoolColleges(null);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchTeacherData();
+    fetchSchoolCollegeData();
   }, [slugId]);
 
   const onEdit = async () => {
     try {
       setIsLoading(true);
-      await handleViewTeacher(slugId);
-      router.push(teacherEdit);
+      await handleViewSchoolCollege(slugId);
+      router.push(schoolCollegeEdit);
     } catch (error) {
       console.error("Edit error:", error);
     } finally {
@@ -58,7 +60,7 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
     return <Loader />;
   }
 
-  if (!teacher) {
+  if (!schoolColleges) {
     return (
       <div className="h-full w-full flex-center">
         <p className="text-lg text-gray-500">
@@ -72,7 +74,7 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
     <Card className="px-2 py-2 ">
       <CardHeader className="text-center text-2xl ">
         <CardTitle className="font-normal">
-          Profile of <span className="underline">{teacher.name}</span>
+          Profile of <span className="underline">{schoolColleges.name}</span>
         </CardTitle>
       </CardHeader>
 
@@ -82,16 +84,18 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
         <div className="flex-between h-fit">
           <div className="flex-center gap-2">
             <Image
-              src={teacher.profilePicture}
+              src={schoolColleges.profilePicture}
               alt="profile"
               width={100}
               height={100}
               className="h-20 w-20 rounded-full "
             />
             <div>
-              <h2 className="text-lg font-semibold">Name:- {teacher.name}</h2>
+              <h2 className="text-lg font-semibold">
+                Name:- {schoolColleges.name}
+              </h2>
               <small className="text-sm font-medium leading-none">
-                Email:- {teacher.email}
+                Email:- {schoolColleges.email}
               </small>
             </div>
           </div>
@@ -105,20 +109,31 @@ const ViewPage = ({ slugId }: { slugId: string }) => {
         <Separator className="my-8" />
 
         <div className="grid-layout">
-          <Heading text={`Name:- ${teacher.name}`} />
-          <Heading text={`Number:- ${teacher.number}`} />
-          <Heading text={`Experience:- ${teacher.experience}`} />
-          <Heading text={`Qualification:- ${teacher.qualification}`} />
-          <Heading text={`School or College:- ${teacher.schoolOrCollege}`} />
-          <Heading text={`Coaching:- ${teacher.coaching}`} />
-          <Heading text={`Teaching Language:- ${teacher.teachingLanguage}`} />
-          <Heading text={`Teaching Subject:- ${teacher.teachingSubject}`} />
-          <Heading text={`Gender:- ${teacher.gender}`} />
-          <Heading text={`Address:- ${teacher.address}`} />
+        <Heading text={`Name: ${schoolColleges?.name}`} /> 
+        <Heading text={`Number: ${schoolColleges?.number}`} />
+        <Heading text={`Address: ${schoolColleges?.address}`} />
+        <Heading text={`Link: ${schoolColleges?.link}`} />
+        <Heading text={`About: ${schoolColleges?.about}`} />
+        <Heading text={`Year of Establishment: ${schoolColleges?.yearOfEstablishment}`} />
+        <Heading text={`Parent Institution: ${schoolColleges?.parentInstitution}`} />
+        <Heading text={`Mode of Study: ${schoolColleges?.modeOfStudy}`} />
+        <Heading text={`Admission Process: ${schoolColleges?.admissionProcess}`} />
+        <Heading text={`Teacher Count: ${schoolColleges?.teacherCount}`} />
+        <Heading text={`Highest Education: ${schoolColleges?.highestEducation}`} />
+        <Heading text={`Gender: ${schoolColleges?.gender}`} />
+        <Heading text={`Type of Education: ${schoolColleges?.typeOfEducation}`} />
+        <Heading text={`Facilities: ${schoolColleges?.facilities}`} />
+        <Heading text={`Competitions: ${schoolColleges?.competitions}`} />
+        <Heading text={`Events: ${schoolColleges?.events}`} />
+        <Heading text={`Interests: ${schoolColleges?.interests}`} />
+        <Heading text={`Sport and Fitness: ${schoolColleges?.sportAndFitness}`} />
+        <Heading text={`Infrastructure: ${schoolColleges?.infrastructure}`} />
+        <Heading text={`Advanced Facilities: ${schoolColleges?.advancedFacilities}`} />
+
         </div>
       </CardContent>
     </Card>
   );
 };
 
-export default ViewPage;
+export default SchoolCollegeViewPage;

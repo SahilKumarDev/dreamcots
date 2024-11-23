@@ -4,40 +4,41 @@ import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { useToast } from "@/hooks/use-toast";
-import { ITeacher } from "@/types/admin/teacher-types";
+import { ISchoolCollege } from "@/types/admin/school-college-types";
+import Loader from "@/components/loader/Loader";
 
-export default function TeacherData() {
-  const [teachers, setTeachers] = useState<ITeacher[]>([]);
+export default function SchoolCollegeData() {
+  const [schoolColleges, setSchoolColleges] = useState<ISchoolCollege[]>([]);
   const [loading, setLoading] = useState(true);
 
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchTeachers = async () => {
+    const fetchSchoolColleges = async () => {
       try {
-        const response = await fetch("/api/teachers");
+        const response = await fetch("/api/schools-colleges");
         const data = await response.json();
-        setTeachers(data);
+        setSchoolColleges(data);
       } catch {
         toast({
           title: "Error",
-          description: "Failed to fetch teachers",
+          description: "Failed to fetch schools colleges",
           variant: "destructive",
         });
       } finally {
         setLoading(false);
       }
     };
-    fetchTeachers();
+    fetchSchoolColleges();
   }, [toast]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
     <div className="container mx-auto">
-      <DataTable columns={columns} data={teachers} />
+      <DataTable columns={columns} data={schoolColleges} />
     </div>
   );
 }

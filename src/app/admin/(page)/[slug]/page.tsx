@@ -26,7 +26,7 @@ const AdminSlugPage = async ({
         return <StudentPage />;
       case "dashboard":
         return <DashboardPage />;
-      case "school-college":
+      case "schools-colleges":
         return <SchoolCollegePage />;
       default:
         return <PageNotFound />;

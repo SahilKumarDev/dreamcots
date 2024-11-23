@@ -1,26 +1,35 @@
-export interface ITeacher {
+export interface ISchoolCollege {
   _id: string;
   name: string;
   email: string;
   number: string;
   address: string;
-  experience: string;
-  qualification: string;
-  profilePicture: string;
-  schoolOrCollege: string;
-  teachingSubject: string;
-  teachingLanguage: string;
 
+  link: string;
+
+  profilePicture: string;
+  about: string;
+  yearOfEstablishment: string;
+  parentInstitution: string;
+
+  modeOfStudy: string;
+
+  admissionProcess: string;
+  teacherCount: string;
+  highestEducation: string;
   gender: IGender;
-  coaching: ICoaching;
+  typeOfEducation: string;
+
+  facilities: string;
+  competitions: string;
+  events: string;
+  interests: string;
+  sportAndFitness: string;
+  infrastructure: string;
+  advancedFacilities: string;
 }
 
 export enum IGender {
   MALE = "male",
   FEMALE = "female",
-}
-
-export enum ICoaching {
-  YES = "yes",
-  NO = "no",
 }

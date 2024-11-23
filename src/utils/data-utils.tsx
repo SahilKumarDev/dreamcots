@@ -37,7 +37,7 @@ export const projects = [
     id: 5,
     name: "School-college",
     icon: School,
-    url: "/school-college",
+    url: "/schools-colleges",
   },
   {
     id: 6,

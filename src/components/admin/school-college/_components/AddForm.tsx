@@ -6,29 +6,41 @@ import CheckBox from "@/components/admin/_components/CheckBox";
 import { Button } from "@/components/ui/button";
 
 import React, { useState } from "react";
-import { ITeacher, IGender, ICoaching } from "@/types/admin/teacher-types";
+
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { ADMIN_TEACHER } from "@/utils/routes";
+import { ADMIN_SCHOOL_COLLEGE } from "@/utils/routes";
 import ImageUpload from "@/components/UploadImage";
+import { IGender, ISchoolCollege } from "@/types/admin/school-college-types";
 
-const AddTeacherForm = () => {
+const AddSchoolCollegeForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const [formData, setFormData] = useState<Partial<ITeacher>>({
+  const [formData, setFormData] = useState<Partial<ISchoolCollege>>({
     name: "",
+    link: "",
     email: "",
+    about: "",
     number: "",
+    events: "",
     address: "",
-    gender: IGender.MALE,
-    coaching: ICoaching.NO,
-    experience: "",
-    qualification: "",
+    interests: "",
+    facilities: "",
+    modeOfStudy: "",
+    competitions: "",
+    teacherCount: "",
+    infrastructure: "",
     profilePicture: "",
-    schoolOrCollege: "",
-    teachingSubject: "",
-    teachingLanguage: "",
+    sportAndFitness: "",
+    typeOfEducation: "",
+    highestEducation: "",
+    admissionProcess: "",
+    parentInstitution: "",
+    advancedFacilities: "",
+    yearOfEstablishment: "",
+
+    gender: IGender.MALE,
   });
 
   const [uploading, setUploading] = useState(false);
@@ -48,13 +60,6 @@ const AddTeacherForm = () => {
     }));
   };
 
-  const handleCoachingChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      coaching: value === ICoaching.YES ? ICoaching.YES : ICoaching.NO,
-    }));
-  };
-
   const handleProfilePictureUpload = (url: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -65,17 +70,28 @@ const AddTeacherForm = () => {
   const resetForm = () => {
     setFormData({
       name: "",
+      link: "",
       email: "",
+      about: "",
       number: "",
+      events: "",
       address: "",
-      gender: IGender.MALE,
-      coaching: ICoaching.NO,
-      experience: "",
-      qualification: "",
+      interests: "",
+      facilities: "",
+      modeOfStudy: "",
+      competitions: "",
+      teacherCount: "",
+      infrastructure: "",
       profilePicture: "",
-      schoolOrCollege: "",
-      teachingSubject: "",
-      teachingLanguage: "",
+      sportAndFitness: "",
+      typeOfEducation: "",
+      highestEducation: "",
+      admissionProcess: "",
+      parentInstitution: "",
+      advancedFacilities: "",
+      yearOfEstablishment: "",
+
+      gender: IGender.MALE,
     });
   };
 
@@ -84,8 +100,7 @@ const AddTeacherForm = () => {
     setUploading(true);
 
     try {
-      // Submit teacher data
-      const teacherResponse = await fetch("/api/teachers", {
+      const schoolCollegeResponse = await fetch("/api/schools-colleges", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,18 +108,18 @@ const AddTeacherForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!teacherResponse.ok) {
-        const error = await teacherResponse.json();
+      if (!schoolCollegeResponse.ok) {
+        const error = await schoolCollegeResponse.json();
         throw new Error(error.error);
       }
 
       toast({
         title: "Success",
-        description: "Teacher created successfully",
+        description: "School College created successfully",
       });
 
       resetForm();
-      router.push(ADMIN_TEACHER);
+      router.push(ADMIN_SCHOOL_COLLEGE);
     } catch (error) {
       toast({
         title: "Error",
@@ -120,12 +135,11 @@ const AddTeacherForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add New Teacher</CardTitle>
+        <CardTitle>Add New School College</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Image Upload Component */}
             <div className="col-span-full flex justify-center mb-6">
               <ImageUpload
                 onUpload={handleProfilePictureUpload}
@@ -167,49 +181,164 @@ const AddTeacherForm = () => {
               value={formData.address}
               onChange={handleInputChange}
               required={false}
-            />
+            /> 
+
             <FloatingInput
-              placeholder="Experience (in years)"
-              id="experience"
-              name="experience"
+              placeholder="Link"
+              id="link"
+              name="link"
               type="text"
-              value={formData.experience}
+              value={formData.link}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="About"
+              id="about"
+              name="about"
+              type="text"
+              value={formData.about}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Event"
+              id="events"
+              name="events"
+              type="text"
+              value={formData.events}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Qualification"
-              id="qualification"
-              name="qualification"
+              placeholder="interests"
+              id="interests"
+              name="interests"
               type="text"
-              value={formData.qualification}
+              value={formData.interests}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="School/College"
-              id="schoolOrCollege"
-              name="schoolOrCollege"
+              placeholder="Facilities"
+              id="facilities"
+              name="facilities"
               type="text"
-              value={formData.schoolOrCollege}
+              value={formData.facilities}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Mode Of Study"
+              id="modeOfStudy"
+              name="modeOfStudy"
+              type="text"
+              value={formData.modeOfStudy}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Competitions"
+              id="competitions"
+              name="competitions"
+              type="text"
+              value={formData.competitions}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Teacher Count"
+              id="teacherCount"
+              name="teacherCount"
+              type="text"
+              value={formData.teacherCount}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Teaching Subject"
-              id="teachingSubject"
-              name="teachingSubject"
+              placeholder="Infrastructure"
+              id="infrastructure"
+              name="infrastructure"
               type="text"
-              value={formData.teachingSubject}
+              value={formData.infrastructure}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Sport And Fitness"
+              id="sportAndFitness"
+              name="sportAndFitness"
+              type="text"
+              value={formData.sportAndFitness}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Type Of Education"
+              id="typeOfEducation"
+              name="typeOfEducation"
+              type="text"
+              value={formData.typeOfEducation}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Highest Education"
+              id="highestEducation"
+              name="highestEducation"
+              type="text"
+              value={formData.highestEducation}
               onChange={handleInputChange}
               required={false}
             />
+
             <FloatingInput
-              placeholder="Teaching Language"
-              id="teachingLanguage"
-              name="teachingLanguage"
+              placeholder="Admission Process"
+              id="admissionProcess"
+              name="admissionProcess"
               type="text"
-              value={formData.teachingLanguage}
+              value={formData.admissionProcess}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Parent Institution"
+              id="parentInstitution"
+              name="parentInstitution"
+              type="text"
+              value={formData.parentInstitution}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Advanced Facilities"
+              id="advancedFacilities"
+              name="advancedFacilities"
+              type="text"
+              value={formData.advancedFacilities}
+              onChange={handleInputChange}
+              required={true}
+            />
+
+            <FloatingInput
+              placeholder="Year Of Establishment"
+              id="yearOfEstablishment"
+              name="yearOfEstablishment"
+              type="text"
+              value={formData.yearOfEstablishment}
               onChange={handleInputChange}
               required={false}
             />
@@ -224,26 +353,16 @@ const AddTeacherForm = () => {
               onChange={handleGenderChange}
             />
 
-            <CheckBox
-              data={[
-                { id: "coaching", label: "Yes", value: ICoaching.YES },
-                { id: "no-coaching", label: "No", value: ICoaching.NO },
-              ]}
-              label="Available for Coaching"
-              value={formData.coaching}
-              onChange={handleCoachingChange}
-            />
-
             <div className="col-span-full mt-6 flex justify-end space-x-4">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push(ADMIN_TEACHER)}
+                onClick={() => router.push(ADMIN_SCHOOL_COLLEGE)}
               >
                 Cancel
               </Button>
               <Button type="submit" disabled={uploading}>
-                {uploading ? "Adding Teacher..." : "Add Teacher"}
+                {uploading ? "Adding School College..." : "Add School College"}
               </Button>
             </div>
           </div>
@@ -253,4 +372,4 @@ const AddTeacherForm = () => {
   );
 };
 
-export default AddTeacherForm;
+export default AddSchoolCollegeForm;
