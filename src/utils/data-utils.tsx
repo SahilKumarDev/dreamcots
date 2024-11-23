@@ -2,7 +2,6 @@ import {
   Home,
   LayoutDashboard,
   School,
-  User2,
   UserCheck2,
   UserCheckIcon,
 } from "lucide-react";
@@ -17,38 +16,31 @@ export const projects = [
   },
   {
     id: 2,
-    name: "user",
-    icon: User2,
-    url: "/users",
-  },
-  {
-    id: 3,
     name: "Student",
     icon: UserCheckIcon,
     url: "/students",
   },
   {
-    id: 4,
+    id: 3,
     name: "Teacher",
     icon: UserCheck2,
     url: "/teachers",
   },
   {
-    id: 5,
+    id: 4,
     name: "School-college",
     icon: School,
     url: "/schools-colleges",
   },
   {
-    id: 6,
+    id: 5,
     name: "Room",
     icon: Home,
     url: "/rooms",
   },
 ];
-  
 
-export const dummyData  = [
+export const dummyData = [
   {
     id: "t1",
     name: "Dr. Sarah Johnson",
@@ -56,7 +48,7 @@ export const dummyData  = [
     phoneNumber: "(555) 123-4567",
     yearsOfExperience: 12,
     teachingSubjects: ["Physics", "Mathematics"],
-    highestQualification: "Ph.D. Physics"
+    highestQualification: "Ph.D. Physics",
   },
   {
     id: "t2",
@@ -65,7 +57,7 @@ export const dummyData  = [
     phoneNumber: "(555) 234-5678",
     yearsOfExperience: 8,
     teachingSubjects: ["Chemistry", "Biology"],
-    highestQualification: "M.Sc. Chemistry"
+    highestQualification: "M.Sc. Chemistry",
   },
   {
     id: "t3",
@@ -74,7 +66,7 @@ export const dummyData  = [
     phoneNumber: "(555) 345-6789",
     yearsOfExperience: 15,
     teachingSubjects: ["English Literature", "Creative Writing"],
-    highestQualification: "M.A. English"
+    highestQualification: "M.A. English",
   },
   {
     id: "t4",
@@ -83,7 +75,7 @@ export const dummyData  = [
     phoneNumber: "(555) 456-7890",
     yearsOfExperience: 6,
     teachingSubjects: ["History", "Social Studies"],
-    highestQualification: "B.A. History"
+    highestQualification: "B.A. History",
   },
   {
     id: "t5",
@@ -92,7 +84,7 @@ export const dummyData  = [
     phoneNumber: "(555) 567-8901",
     yearsOfExperience: 10,
     teachingSubjects: ["Spanish", "French"],
-    highestQualification: "M.A. Languages"
+    highestQualification: "M.A. Languages",
   },
   {
     id: "t6",
@@ -101,7 +93,7 @@ export const dummyData  = [
     phoneNumber: "(555) 678-9012",
     yearsOfExperience: 20,
     teachingSubjects: ["Computer Science", "Mathematics"],
-    highestQualification: "Ph.D. Computer Science"
+    highestQualification: "Ph.D. Computer Science",
   },
   {
     id: "t7",
@@ -110,7 +102,7 @@ export const dummyData  = [
     phoneNumber: "(555) 789-0123",
     yearsOfExperience: 9,
     teachingSubjects: ["Art", "Design"],
-    highestQualification: "B.F.A. Fine Arts"
+    highestQualification: "B.F.A. Fine Arts",
   },
   {
     id: "t8",
@@ -119,7 +111,7 @@ export const dummyData  = [
     phoneNumber: "(555) 890-1234",
     yearsOfExperience: 7,
     teachingSubjects: ["Music", "Drama"],
-    highestQualification: "M.Mus. Performance"
+    highestQualification: "M.Mus. Performance",
   },
   {
     id: "t9",
@@ -128,7 +120,7 @@ export const dummyData  = [
     phoneNumber: "(555) 901-2345",
     yearsOfExperience: 11,
     teachingSubjects: ["Biology", "Environmental Science"],
-    highestQualification: "Ph.D. Biology"
+    highestQualification: "Ph.D. Biology",
   },
   {
     id: "t10",
@@ -137,6 +129,6 @@ export const dummyData  = [
     phoneNumber: "(555) 012-3456",
     yearsOfExperience: 14,
     teachingSubjects: ["Physics", "Astronomy"],
-    highestQualification: "Ph.D. Astrophysics"
-  }
-]; 
+    highestQualification: "Ph.D. Astrophysics",
+  },
+];
